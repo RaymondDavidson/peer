@@ -1,8 +1,8 @@
 # A very simple Flask Hello World app for you to get started with...
 import os
-from flask import Flask, request, redirect, url_for, flash
+from flask import Flask, request, redirect, url_for, flash, render_template
 from werkzeug.utils import secure_filename
-# from input import read_document
+from input import read_document
 
 UPLOAD_FOLDER = 'tmp'
 ALLOWED_EXTENSIONS = set(['txt', 'docx', 'doc', 'pdf', 'odt'])
@@ -23,7 +23,7 @@ def hello_world():
 def feedback():
     # redirect to analysis results
     # Doc = read_document.Sample(file)
-    return "Here's your feedback."
+    return Doc.ptext
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_file():
@@ -41,14 +41,8 @@ def upload_file():
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             # return redirect(url_for('feedback',
             #    filename=filename))
+            global Doc
+            Doc = read_document.Sample(UPLOAD_FOLDER + "/" + filename)
             return redirect(url_for('feedback'))
 
-    return '''
-    <!doctype html>
-    <title>Upload new File</title>
-    <h1>Upload new File</h1>
-    <form method=post enctype=multipart/form-data>
-      <p><input type=file name=file>
-         <input type=submit value=Upload>
-    </form>
-    '''
+    return render_template('upload.html')

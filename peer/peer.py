@@ -1,6 +1,7 @@
 # A very simple Flask Hello World app for you to get started with...
 import os
 from flask import Flask, request, redirect, url_for, flash, render_template
+from flask_bootstrap import Bootstrap
 from werkzeug.utils import secure_filename
 from input import read_document
 
@@ -8,6 +9,7 @@ UPLOAD_FOLDER = 'tmp'
 ALLOWED_EXTENSIONS = set(['txt', 'docx', 'doc', 'pdf', 'odt'])
 
 app = Flask(__name__)
+Bootstrap(app)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 def allowed_file(filename):

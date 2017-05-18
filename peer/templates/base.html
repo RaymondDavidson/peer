@@ -1,0 +1,15 @@
+{% extends "bootstrap/base.html" %}
+
+<!doctype html>
+<title>Essay Eyes</title>
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+{% block body %}{% endblock %}

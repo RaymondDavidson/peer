@@ -45,7 +45,7 @@ class Sample:
         opens to plain text string (docx, pdf, odt, txt)
 
         Args:
-        path (str): path to file to open, anaylze, close
+            path (str): path to file to open, anaylze, close
 
 
         Public attributes:
@@ -215,10 +215,10 @@ class Sample:
         to lower case.
 
         Args:
-        string_in (str): Text to strip punctuation from
+            string_in (str): Text to strip punctuation from
 
         return:
-        str
+            str
         """
         string_in = string_in.translate(None, ',.!?\"<>{}[]--@()\'--')
         return str(string_in.lower())
@@ -231,10 +231,11 @@ class Sample:
         is important because of contractions.
 
         Args:
-        text (str)
+            text (str)
 
         returns:
-        list
+            list
+
         """
         self.tokenizer = nltk.tokenize.regexp.WhitespaceTokenizer()
         return self.tokenizer.tokenize(text)
@@ -310,10 +311,11 @@ class Sample:
         Uses default tokenizer from nltk.
 
         Args:
-        paragraph (str)
+            paragraph (str)
 
         Return:
-        list
+            list
+
         """
         try:
             self.word_tokens = tokenize.word_tokenize(paragraph)
@@ -333,6 +335,7 @@ class Sample:
 
         Returns:
         list
+
         """
         try:
             self.sentences = tokenize.sent_tokenize(paragraphs)
@@ -388,6 +391,7 @@ class Sample:
 
         Returns:
             int syllable count
+
         """
         self.d = cmudict.dict()
         return min([len([y for y in x if isdigit(y[-1])])
@@ -410,4 +414,3 @@ class Sample:
         for m in modals:
             modals_freq.append(str(m + ': ' + str(fdist[m])))
         return modals_freq
-

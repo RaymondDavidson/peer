@@ -1,4 +1,5 @@
-# A very simple Flask Hello World app for you to get started with...
+""" Routes for essay analysis interface"""
+
 import os
 from flask import Flask, request, redirect, url_for, flash, render_template
 from flask_bootstrap import Bootstrap
@@ -9,23 +10,21 @@ UPLOAD_FOLDER = 'tmp'
 ALLOWED_EXTENSIONS = set(['txt', 'docx', 'doc', 'pdf', 'odt'])
 
 app = Flask(__name__)
-Bootstrap(app)
+bootstrap = Bootstrap(app)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['DEBUG'] = True
 
 def allowed_file(filename):
     return '.' in filename and \
         filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-@app.route('/')
-def hello_world():
-    # Should be explanatory content, examples, navigation
-    return 'Hello from Flask! Click <a href="/upload">here</a> to upload.'
 
-@app.route('/feedback')
-def feedback():
-    # redirect to analysis results
-    # Doc = read_document.Sample(file)
-    return Doc.ptext
+@app.route('/')
+def intro():
+    # Should be explanatory content, examples, navigation
+    return 'Welcome. Click <a href="/upload">here</a> to upload.'
+
+
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_file():
@@ -48,3 +47,8 @@ def upload_file():
             return redirect(url_for('feedback'))
 
     return render_template('upload.html')
+
+@app.route('/feedback')
+def feedback():
+    print Doc.ptext
+    return render_template('results.html', object=Doc)

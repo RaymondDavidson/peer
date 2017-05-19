@@ -12,9 +12,16 @@ UPLOAD_FOLDER = 'tmp'
 ALLOWED_EXTENSIONS = set(['txt', 'docx', 'doc', 'pdf', 'odt'])
 
 app = Flask(__name__)
-bootstrap = Bootstrap(app)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['DEBUG'] = True
+bootstrap = Bootstrap(app)
+nav = Nav()
+
+@nav.navigation()
+def mynavbar():
+    return Navbar('Peer', View('Home', 'index'),)
+
+nav.init_app(app)
 
 def allowed_file(filename):
     return '.' in filename and \

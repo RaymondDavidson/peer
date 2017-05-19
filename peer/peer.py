@@ -5,6 +5,8 @@ from flask import Flask, request, redirect, url_for, flash, render_template
 from flask_bootstrap import Bootstrap
 from werkzeug.utils import secure_filename
 from input import read_document
+from flask_nav import Nav
+from flask_nav.elements import Navbar, View
 
 UPLOAD_FOLDER = 'tmp'
 ALLOWED_EXTENSIONS = set(['txt', 'docx', 'doc', 'pdf', 'odt'])

@@ -2,7 +2,10 @@
 
 <!doctype html>
 <title>Essay Eyes</title>
-
+{% block navbar %}
+{{ nav.mynavbar.render() }}
+{% endblock %}
+{% block alerts %}
 {% with messages = get_flashed_messages() %}
   {% if messages %}
     <ul class=flashes>
@@ -12,4 +15,5 @@
     </ul>
   {% endif %}
 {% endwith %}
+{% endblock %}
 {% block body %}{% endblock %}

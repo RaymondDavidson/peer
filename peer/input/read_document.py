@@ -88,21 +88,21 @@ class Sample:
         -no_punct:  (str) full text string without sentence punctuation.
         -word_tokens_no_punct:  uses white-space tokenizer to create a list
         of all words.
-        readability_flesch_re:  (int) Flesch Reading Ease Score (numeric
+        -readability_flesch_re:  (int) Flesch Reading Ease Score (numeric
         score) made by textstat module.
-        readability_smog_index:  (int) grade level as determined by the
+        -readability_smog_index:  (int) grade level as determined by the
         SMOG algorithum made by textstat module.
-        readability_flesch_kincaid_grade:  (int)  Flesch-Kincaid grade level
+        -readability_flesch_kincaid_grade:  (int)  Flesch-Kincaid grade level
         of reader made by textstat module.
-        readability_coleman_liau_index:  (int) grade level of reader as made by
+        -readability_coleman_liau_index:  (int) grade level of reader as made by
         textstat module.
-        readability_ari:  (int) grade leader of reader determined by
+        -readability_ari:  (int) grade leader of reader determined by
         automated readability index algorithum implemented by textstat.
-        readability_linser_write:  FIX SPELLING grade level as determined
+        -readability_linser_write:  FIX SPELLING grade level as determined
         by Linsear Write algorithum implemented by textstat.
-        readability_dale_chall:  (int) grade level based on Dale-Chall
+        -readability_dale_chall:  (int) grade level based on Dale-Chall
         readability as determined by textstat.
-        readability_standard:  composite grade level based on readability
+        -readability_standard:  composite grade level based on readability
         algorithums.
         -flesch_re_key:  list for interpreting Flesch RE Score.
         -word_count:  word count of document based on white space tokener,
@@ -191,6 +191,8 @@ class Sample:
                 "* 30-49 : Difficult",
                 "* 0-29 : Very Confusing"
                 )
+            self.flesch_re_desc_str = self.flesch_re_desc(int(
+                textstat.flesch_reading_ease(self.text_no_feed)))
             if self.word_tokens_no_punct:
                 self.word_count = len(self.word_tokens_no_punct)
                 self.page_length = float(self.word_count)/float(250)
@@ -206,6 +208,22 @@ class Sample:
                     self.word_frequency(self.word_tokens_no_punct)
                 self.modal_dist = self.modal_count(self.word_tokens_no_punct)
                 # self.ws_tokens = self.ws_tokenize(self.text_no_cr)
+
+    def flesch_re_desc(self, score):
+        if score < 30:
+            return "Very Confusing"
+        elif score < 50 and score > 29:
+            return "Difficult"
+        elif score < 60 and score > 49:
+            return "Fairly Difficult"
+        elif score > 59 and score < 70:
+            return "Standard"
+        elif score > 69 and score < 80:
+            return "Fairly Easy"
+        elif score < 90 and score > 79:
+            return "Easy"
+        else:
+            return "Very Easy"
 
     def strip_punctuation(self, string_in):
         """

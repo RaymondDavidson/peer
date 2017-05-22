@@ -69,4 +69,5 @@ def upload_file():
 
 @app.route('/feedback')
 def feedback():
+    os.remove(Doc.path)
     return render_template('results.html', object=Doc)

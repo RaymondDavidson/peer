@@ -23,7 +23,7 @@ from nltk.tokenize import RegexpTokenizer
 
 from passive.passive import main as passive
 from textstat.textstat import textstat
-
+import datetime
 
 # from mimetypes import MimeTypes
 
@@ -134,6 +134,7 @@ class Sample:
         self.path = path
         self.abs_path = os.path.abspath(self.path)
         if os.path.isfile(self.path):
+            self.time_stamp = self.timestamp()
             self.file_name = os.path.basename(path)
             self.mime = MimeTypes()
             self.guessed_type = self.mime.guess_type(self.path)
@@ -414,3 +415,6 @@ class Sample:
         for m in modals:
             modals_freq.append(str(m + ': ' + str(fdist[m])))
         return modals_freq
+
+    def timestamp(self, fmt='%Y-%m-%d-%H-%M-%S'):
+        return datetime.datetime.now().strftime(fmt)

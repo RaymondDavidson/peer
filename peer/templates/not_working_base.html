@@ -1,17 +1,5 @@
 {% extends "bootstrap/base.html" %}
 
-{% block title %}Academic Essay Analysis{% endblock %}
-{% import "bootstrap/fixes.html" as fixes %}
-{% block head %}
-    {{super()}}
-    {{fixes.ie8()}}
-{%- endblock %}
-
-
-
-{% block navbar %}
-{{nav.top.render()}}
-{% endblock %}
 {% block alerts %}
 {% with messages = get_flashed_messages() %}
   {% if messages %}
@@ -22,4 +10,7 @@
     </ul>
   {% endif %}
 {% endwith %}
+{% endblock %}
+{% block navbar %}
+{{nav.frontend_top.render()}}
 {% endblock %}

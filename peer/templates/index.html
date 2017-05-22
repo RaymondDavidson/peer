@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+
+
+
+
+{% block content %}
+
+  <div class="container">
+    <div class="jumbotron">
+      <h1>Extra Eyes</h1>
+      <p>Upload a file to get started <a href="/upload">
+      upload a file</a>.</p>
+      <p>
+        <a class="btn btn-lg btn-primary" role="button"
+           href="/upload" >Upload</a>
+      </p>
+    </div>
+   </div>
+
+  <div class="container">
+  {% with messages = get_flashed_messages(with_categories=True) %}
+  {% if messages %}
+    <div class="row">
+      <div class="col-md-12">
+        {{utils.flashed_messages(messages)}}
+      </div>
+    </div>
+  {% endif %}
+  {% endwith %}
+  {% endblock %}

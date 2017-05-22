@@ -1,14 +1,25 @@
 {% extends "base.html" %}
-{% block body %}
+{% block content %}
+
 {% block page_content %}
 <div class="container">
-<h1>Feedback</h1>
+<h1>Report: <small>{{ object.file_name }}</h1>
+<h2>Metadata</h2>
+    <p>File Name: {{ object.file_name }}</p>
+    <p>Path to file: {{ object.path }}</p>
+    <p>Report Generated: </p>
 <h2>Content</h2>
 {{ object.ptext}}
 <h2>Readability</h2>
 <p>Flesch Reading Ease Score: {{ object.readability_flesch_re }}</p>
-<p>Flesch-Kincaid Reading Grade: {{ object.readability_flesch_kincaid_grade }}</p>
+<p>Flesch-Kincaid Reading Grade: {{
+    object.readability_flesch_kincaid_grade }}</p>
 <p>Coleman Liau Index: {{ object.readability_coleman_liau_index }}</p>
+<p>SMOG Index: {{ object.readability_smog_index}}</p>
+<p>Dall Chall: {{ object.readability_dale_chall }}</p>
+<p>Linsear Write: {{ object.readability_linser_write }}</p>
+<p>Automated Readability Index: {{ object.readability_ari }}</p>
+<p>Readability (Standard): {{ object.readability_standard }}</p>
 <h2>Statistics</h2>
 <p>Page Count: {{ object.page_length }} (assuming 250 words per page)</p>
 <p>Paper Sides: {{ object.paper_count }}

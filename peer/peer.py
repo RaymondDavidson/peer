@@ -6,22 +6,32 @@ from flask_bootstrap import Bootstrap
 from werkzeug.utils import secure_filename
 from input import read_document
 from flask_nav import Nav
-from flask_nav.elements import Navbar, View
+#from flask_nav.elements import Navbar, View, Subgroup, Link, Text, Separator
+from flask_nav.elements import *
+
+
 
 UPLOAD_FOLDER = 'tmp'
 ALLOWED_EXTENSIONS = set(['txt', 'docx', 'doc', 'pdf', 'odt'])
 
+topbar = Navbar('',
+    View('Home', 'intro'),
+    View('Upload', 'upload_file'),
+)
+
+nav = Nav()
+nav.register_element('top', topbar)
 app = Flask(__name__)
+Bootstrap(app)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['DEBUG'] = True
-bootstrap = Bootstrap(app)
-nav = Nav()
-
-@nav.navigation()
-def mynavbar():
-    return Navbar('Peer', View('Home', 'index'),)
-
 nav.init_app(app)
+
+
+
+
+
+
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -31,7 +41,7 @@ def allowed_file(filename):
 @app.route('/')
 def intro():
     # Should be explanatory content, examples, navigation
-    return 'Welcome. Click <a href="/upload">here</a> to upload.'
+    return render_template('index.html')
 
 
 
@@ -59,5 +69,4 @@ def upload_file():
 
 @app.route('/feedback')
 def feedback():
-    print Doc.ptext
     return render_template('results.html', object=Doc)

@@ -182,15 +182,6 @@ class Sample:
                 textstat.dale_chall_readability_score(self.text_no_feed)
             self.readability_standard = \
                 textstat.text_standard(self.text_no_feed)
-            self.flesch_re_key = (
-                "* 90-100 : Very Easy",
-                "* 80-89 : Easy",
-                "* 70-79 : Fairly Easy",
-                "* 60-69 : Standard",
-                "* 50-59 : Fairly Difficult",
-                "* 30-49 : Difficult",
-                "* 0-29 : Very Confusing"
-                )
             self.flesch_re_desc_str = self.flesch_re_desc(int(
                 textstat.flesch_reading_ease(self.text_no_feed)))
             if self.word_tokens_no_punct:
@@ -434,5 +425,5 @@ class Sample:
             modals_freq.append(str(m + ': ' + str(fdist[m])))
         return modals_freq
 
-    def timestamp(self, fmt='%Y-%m-%d-%H-%M-%S'):
+    def timestamp(self, fmt='%Y-%m-%d (%H:%M)'):
         return datetime.datetime.now().strftime(fmt)

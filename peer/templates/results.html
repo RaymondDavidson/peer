@@ -7,16 +7,26 @@
 <h2>Metadata</h2>
     <p>File Name: {{ object.file_name }}</p>
     <p>Path to file: {{ object.path }}</p>
-    <p>Report Generated: </p>
+    <p>Report Generated: {{ object.time_stamp }}</p>
 <h2>Statistics</h2>
     <p>Page Count: {{ object.page_length }} (assuming 250 words per page)</p>
     <p>Paper Sides: {{ object.paper_count }}
     <p>Word Count: {{ object.word_count }}</p>
     <p>Sentence Count: {{ object.sentence_count }}</p>
 <h2>Lard Analysis</h2>
-<p>Occurences of the verb <em>to be</em>: {{ object.be_verb_count}}</p>
-<p>All other aux verbs: {{ object.modal_dist }}</p>
-<p>Sentence with passive voice: {{ object.passive_sentence_count }}</p>
+<h3>Introduction</h3>
+<p>Data to support revision using Lanham's Paramedic Method. To learn more about Lanham and the Paramedic Revision Method, explore the links below:
+<ul><li><a href="https://people.umass.edu/curtis/academics/editingtoolbox/Lanham_LardFactor.pdf
+" target="_blank">Workshop</a></li>
+<li><a href="http://faculty.winthrop.edu/kosterj/WRIT465/slide%20shows/lardoutline_files/frame.htm" target="_blank">Presentation</a></li>
+<li><a href="http://people.vetmed.wsu.edu/jmgay/courses/documents/TheParamedicMethod.pdf
+" target="_blank">Workshop 2</a></li>
+<li><a href="https://www.amazon.com/Revising-Prose-5th-Richard-Lanham/dp/0321441699/ref=asap_bc?ie=UTF8" target="_blank">Lanham's <em>Revising Prose (5th Ed.)</em> on Amazon</a></li>
+</ul>
+<h3>Data</h3>
+  <p>Occurences of the verb <em>to be</em>: {{ object.be_verb_count}}</p>
+  <p>All other aux verbs: {{ object.modal_dist }}</p>
+  <p>Sentences with passive voice: {{ object.passive_sentence_count }}</p>
 
 
 

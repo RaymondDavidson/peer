@@ -26,6 +26,7 @@ from textstat.textstat import textstat
 import datetime
 from random import randint
 
+
 # from mimetypes import MimeTypes
 
 
@@ -140,7 +141,7 @@ class Sample:
             self.mime = MimeTypes()
             self.guessed_type = self.mime.guess_type(self.path)
             self.file_type = self.guessed_type[0]
-            self.raw_text = textract.process(self.path)
+            self.raw_text = textract.process(self.path, encoding="ascii")
             self.ptext = re.sub(u'[\u201c\u201d]', '"', self.raw_text)
             self.ptext = re.sub(u"\u2014", "--", self.ptext)
             self.ptext = re.sub(",", ",", self.ptext)
@@ -187,6 +188,7 @@ class Sample:
                 textstat.dale_chall_readability_score(self.text_no_feed)
             self.readability_standard = \
                 textstat.text_standard(self.text_no_feed)
+
             self.flesch_re_desc_str = self.flesch_re_desc(int(
                 textstat.flesch_reading_ease(self.text_no_feed)))
             self.polysyllabcount = textstat.polysyllabcount(self.text_no_feed)

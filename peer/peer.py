@@ -12,8 +12,8 @@ from flask_nav.elements import *
 
 
 UPLOAD_FOLDER = 'tmp'
-ALLOWED_EXTENSIONS = set(['txt', 'docx', 'doc', 'pdf', 'odt'])
-
+# ALLOWED_EXTENSIONS = set(['txt', 'docx', 'doc', 'pdf', 'odt'])
+ALLOWED_EXTENSIONS = set(['txt', 'docx', 'pdf', 'odt'])
 topbar = Navbar('',
     View('Home', 'intro'),
     View('Upload', 'upload_file'),

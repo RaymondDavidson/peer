@@ -2,6 +2,18 @@
 {% block content %}
 
 {% block page_content %}
+<style type="text/css" media="print">
+.dontprint
+{ display: none; }
+</style>
+<div class="container">
+    <div class="jumbotron dontprint">
+        <h1>Report for {{ object.file_name }}</h1>
+        <p>Click "Content" to return to the document preview.</p>
+        <p><a href="/content" class="btn btn-primary" target="_blank">Review Full Text</a></p>
+    </div>
+</div>
+
 <div class="container">
 <h1>Report: <em>{{ object.file_name }} ({{ object.time_stamp }})</em>
 <h2>Metadata</h2>

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<style type="text/css" media="print">
+.dontprint
+{ display: none; }
+</style>
+<div class="container dontprint">
+    <div class="jumbotron">
+        <h1>Full Text: <em>{{ object.file_name }}</em></h1>
+        <!--<p>Here's a preview of the text. Click "Results" to continue.</p>
+        <p><a class="btn btn-primary" target="-1">Results</a></p>-->
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+          <div style="white-space: pre-wrap; line-height: 150%;">{{ object.raw_text }}</div>
+      </div>
+    </div>
+</div>
+
+
+{% endblock %}

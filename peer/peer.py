@@ -71,3 +71,7 @@ def upload_file():
 def feedback():
     os.remove(Doc.path)
     return render_template('results.html', object=Doc)
+
+@app.route('/content')
+def content():
+    return render_template('content.html', object=Doc)

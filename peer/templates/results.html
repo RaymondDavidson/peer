@@ -3,7 +3,7 @@
 
 {% block page_content %}
 <div class="container">
-<h1>Report: <small>{{ object.file_name }} ({{ object.time_stamp }})</h1>
+<h1>Report: <em>{{ object.file_name }} ({{ object.time_stamp }})</em>
 <h2>Metadata</h2>
     <p>File Name: {{ object.file_name }}</p>
     <p>Path to file: {{ object.path }}</p>
@@ -11,22 +11,25 @@
 <h2>Statistics</h2>
     <p>Page Count: {{ object.page_length }} (assuming 250 words per page)</p>
     <p>Paper Sides: {{ object.paper_count }}
-    <p>Word Count: {{ object.word_count }}</p>
+    <!--<p>Word Count: {{ object.word_count }}</p>-->
     <p>Sentence Count: {{ object.sentence_count }}</p>
+    <p>Average letters per word: {{ object.avg_letter_per_word }}</p>
+    <p>Average sentence length: {{ object.avg_sentence_length }}</p>
+    <!--<p>Average sentence per word(?): {{ object.avg_sentence_per_word }}</p>-->
+    <p>Average syllables per word: {{ object.avg_syllables_per_word }}</p>
+    <p>Polysyllables: {{ object.polysyllabcount }}</p>
+    <p>"Difficult words": {{ object.difficult_words }}</p>
+    <p>Lexicon count: {{ object.lexicon_count }}</p>
 <h2>Lard Analysis</h2>
-<h3>Introduction</h3>
-<p>Data to support revision using Lanham's Paramedic Method. To learn more about Lanham and the Paramedic Revision Method, explore the links below:
-<ul><li><a href="https://people.umass.edu/curtis/academics/editingtoolbox/Lanham_LardFactor.pdf
-" target="_blank">Workshop</a></li>
-<li><a href="http://faculty.winthrop.edu/kosterj/WRIT465/slide%20shows/lardoutline_files/frame.htm" target="_blank">Presentation</a></li>
-<li><a href="http://people.vetmed.wsu.edu/jmgay/courses/documents/TheParamedicMethod.pdf
-" target="_blank">Workshop 2</a></li>
-<li><a href="https://www.amazon.com/Revising-Prose-5th-Richard-Lanham/dp/0321441699/ref=asap_bc?ie=UTF8" target="_blank">Lanham's <em>Revising Prose (5th Ed.)</em> on Amazon</a></li>
-</ul>
-<h3>Data</h3>
   <p>Occurences of the verb <em>to be</em>: {{ object.be_verb_count}}</p>
   <p>All other aux verbs: {{ object.modal_dist }}</p>
+  <p>Weak verbs to sentences: {{ object.weak_verbs_to_sentences_round }} % </p>
   <p>Sentences with passive voice: {{ object.passive_sentence_count }}</p>
+  <p>Percent passive sentences (rounded): {{ object.percent_passive_round }}</p>
+    <!--<p>Percent passive sentences: {{ object.percent_passive }}</p>-->
+  <p>Example passive sentence from <em>{{ object.file_name }}</em> (randomly selected): "{{ object.rand_passive }}"</p>
+  <p>Example <em>to be</em> usage from <em> {{ object.file_name }}</em>
+       (randomly selected): {{ object.rand_weak_sentence }}</p>
 
 
 

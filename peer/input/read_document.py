@@ -24,6 +24,7 @@ from nltk.tokenize import RegexpTokenizer
 from passive.passive import main as passive
 from textstat.textstat import textstat
 import datetime
+from random import randint
 
 # from mimetypes import MimeTypes
 
@@ -153,13 +154,17 @@ class Sample:
             self.percent_passive = (100 *
                                         (float(self.passive_sentence_count) /
                                          float(self.sentence_count)))
+            self.percent_passive_round = round(self.percent_passive, 2)
 
             self.be_verb_analysis = self.count_be_verbs(self.sentence_tokens)
             self.be_verb_count = self.be_verb_analysis[0]
             self.weak_sentences_all = self.be_verb_analysis[1]
             self.weak_sentences_set = set(self.weak_sentences_all)
             self.weak_sentences_count = len(self.weak_sentences_set)
-            self.weak_verbs_to_sentences = 100 * float(self.weak_sentences_count) / float(self.sentence_count)
+            self.weak_verbs_to_sentences = 100 * float(
+                self.weak_sentences_count) / float(self.sentence_count)
+            self.weak_verbs_to_sentences_round = round(
+                self.weak_verbs_to_sentences, 2)
             self.word_tokens = self.word_tokenize(self.text_no_feed)
             self.word_tokens_no_punct = \
                 self.word_tokenize_no_punct(self.text_no_feed)
@@ -184,6 +189,21 @@ class Sample:
                 textstat.text_standard(self.text_no_feed)
             self.flesch_re_desc_str = self.flesch_re_desc(int(
                 textstat.flesch_reading_ease(self.text_no_feed)))
+            self.polysyllabcount = textstat.polysyllabcount(self.text_no_feed)
+            self.lexicon_count = textstat.lexicon_count(self.text_no_feed)
+            self.avg_syllables_per_word = textstat.avg_syllables_per_word(
+                self.text_no_feed)
+            self.avg_sentence_per_word = textstat.avg_sentence_per_word(
+                self.text_no_feed)
+            self.avg_sentence_length = textstat.avg_sentence_length(
+                self.text_no_feed)
+            self.avg_letter_per_word = textstat.avg_letter_per_word(
+                self.text_no_feed)
+            self.difficult_words = textstat.difficult_words(self.text_no_feed)
+            self.rand_passive = self.select_random(self.passive_sentence_count,
+                                                   self.passive_sentences)
+            self.rand_weak_sentence = self.select_random(
+                len(self.weak_sentences), self.weak_sentences)
             if self.word_tokens_no_punct:
                 self.word_count = len(self.word_tokens_no_punct)
                 self.page_length = float(self.word_count)/float(250)
@@ -425,5 +445,10 @@ class Sample:
             modals_freq.append(str(m + ': ' + str(fdist[m])))
         return modals_freq
 
-    def timestamp(self, fmt='%Y-%m-%d (%H:%M)'):
+    def timestamp(self, fmt='%Y-%m-%d %H:%M'):
         return datetime.datetime.now().strftime(fmt)
+
+    def select_random(self, count, content):
+        top_of_range = 0 + count
+        choose = randint(0, top_of_range)
+        return content[choose]

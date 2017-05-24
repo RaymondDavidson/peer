@@ -75,3 +75,7 @@ def feedback():
 @app.route('/content')
 def content():
     return render_template('content.html', object=Doc)
+
+@app.errorhandler(500)
+def internal_server_error(error):
+    return render_template('500.html'), 500

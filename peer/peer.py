@@ -17,6 +17,7 @@ ALLOWED_EXTENSIONS = set(['txt', 'docx', 'pdf', 'odt'])
 topbar = Navbar('',
     View('Home', 'intro'),
     View('Upload', 'upload_file'),
+    View('Usage', 'usage'),
 )
 
 nav = Nav()
@@ -75,6 +76,10 @@ def feedback():
 @app.route('/content')
 def content():
     return render_template('content.html', object=Doc)
+
+@app.route('/usage')
+def usage():
+    return render_template('usage.html')
 
 @app.errorhandler(500)
 def internal_server_error(error):

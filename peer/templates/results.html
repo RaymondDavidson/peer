@@ -43,7 +43,7 @@
   <p>Example passive sentence from <em>{{ object.file_name }}</em> (randomly selected): "{{ object.rand_passive }}"</p>
   <p>Example <em>to be</em> usage from <em> {{ object.file_name }}</em>
        (randomly selected): "{{ object.rand_weak_sentence }}"</p>
-
+  <p>Prepositions: {{ object.preposition_count }} (across {{ object.sentence_count }} sentences)</p>
 
 
 <h2>Readability</h2>
@@ -56,6 +56,13 @@
 <p>Linsear Write: {{ object.readability_linser_write }}</p>
 <p>Automated Readability Index: {{ object.readability_ari }}</p>
 <p>Readability (Standard): {{ object.readability_standard }}</p>
+<h2>Parts of Speech</h2>
+<p>POS Dictionary:</p>
+<em>{{ object.pos_count_dict }}</em>
+<p>Adjective count: {{ object.adjective_count }}
+
+
+
 
 </div>
 

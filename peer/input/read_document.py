@@ -114,7 +114,7 @@ class Sample:
         -paper_count:  (int) number of printed pages given 250 words per
         page.
         -parts_of_speech:  words with parts of speech tags.
-        -pos_counts:  values in word, tag couple grouped in a list.
+        -pos_counts:  values in word, tag couple grouped in a list (Counter).
         -pos_total:  (int) sum of pos_counts values
         -pos_freq:  (dict) word, ratio of whole
         -doc_pages:  (float) page length based on 250 words per page
@@ -172,6 +172,8 @@ class Sample:
             self.no_punct = self.strip_punctuation(self.text_no_feed)
             # use this! It make lower and strips symbols
             self.word_tokens_no_punct = self.ws_tokenize(self.no_punct)
+
+
             self.readability_flesch_re = \
                 textstat.flesch_reading_ease(self.text_no_feed)
             self.readability_smog_index = \
@@ -221,6 +223,13 @@ class Sample:
                     self.word_frequency(self.word_tokens_no_punct)
                 self.modal_dist = self.modal_count(self.word_tokens_no_punct)
                 # self.ws_tokens = self.ws_tokenize(self.text_no_cr)
+                self.pos_count_dict = self.pos_counts.items()
+
+            # Model - use for any pos
+            self.preposition_count = self.pos_isolate(
+                            'IN', self.pos_count_dict)
+            self.adjective_count = self.pos_isolate_fuzzy(
+                'JJ', self.pos_count_dict)
 
     def flesch_re_desc(self, score):
         if score < 30:
@@ -454,3 +463,19 @@ class Sample:
         top_of_range = 0 + count
         choose = randint(0, top_of_range)
         return content[choose]
+
+    def pos_count(self, pos, resource):
+        count = 0
+        for x,y in resource:
+            if x == pos:
+                return y
+
+    def pos_isolate(self, pos, dictionary):
+        for x, y in dictionary:
+            if x == pos:
+                return y
+
+    def pos_isolate_fuzzy(self, pos, dictionary):
+        for x, y in dictionary:
+            if pos in x:
+                return y

@@ -1,23 +1,28 @@
 """ Routes for essay analysis interface"""
 
 import os
-from flask import Flask, request, redirect, url_for, flash, render_template
-from flask_bootstrap import Bootstrap
+
 from werkzeug.utils import secure_filename
-from input import read_document
+
+from flask import Flask, flash, redirect, render_template, request, url_for
+from flask_bootstrap import Bootstrap
 from flask_nav import Nav
-#from flask_nav.elements import Navbar, View, Subgroup, Link, Text, Separator
 from flask_nav.elements import *
-
-
+from input import read_document
 
 UPLOAD_FOLDER = 'tmp'
 # ALLOWED_EXTENSIONS = set(['txt', 'docx', 'doc', 'pdf', 'odt'])
 ALLOWED_EXTENSIONS = set(['txt', 'docx', 'pdf', 'odt'])
 topbar = Navbar('',
+    Text('Extra Eyes'),
     View('Home', 'intro'),
     View('Upload', 'upload_file'),
     View('Usage', 'usage'),
+    Subgroup('Resources',
+             Link('Lard', 'http://proftgreene.pbworks.com/w/file/fetch/50167777/Richard%20Lanhams%20Paramedic%20Method%20of%20Revision.pdf'),
+             Link('Readability', 'http://www.analyzemywriting.com/readability_indices.html'),
+             Link('Revision Strategies', 'http://greyfiti.wikidot.com/sdg:gmeth-ref-guidelines-substantive-revision')
+             ),
 )
 
 nav = Nav()
@@ -82,5 +87,8 @@ def usage():
     return render_template('usage.html')
 
 @app.errorhandler(500)
-def internal_server_error(error):
+def internal_server_error(e):
     return render_template('500.html'), 500
+
+if __name__ == "__main__":
+    app.run()

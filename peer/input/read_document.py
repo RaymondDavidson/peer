@@ -230,7 +230,8 @@ class Sample:
                             'IN', self.pos_count_dict)
             self.adjective_count = self.pos_isolate_fuzzy(
                 'JJ', self.pos_count_dict)
-
+            self.adverb_count = self.pos_isolate_fuzzy(
+                'RB', self.pos_count_dict)
     def flesch_re_desc(self, score):
         if score < 30:
             return "Very Confusing"

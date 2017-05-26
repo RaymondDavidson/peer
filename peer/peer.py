@@ -86,6 +86,10 @@ def content():
 def usage():
     return render_template('usage.html')
 
+@app.route('/suggestions')
+def suggestions():
+    return render_template('suggestions.html', object=Doc)
+
 @app.errorhandler(500)
 def internal_server_error(e):
     return render_template('500.html'), 500

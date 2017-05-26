@@ -6,6 +6,7 @@ Opens and reads document to string raw_text. Relies on textract to handle
 """
 
 
+import datetime
 import math
 import os
 import re
@@ -14,17 +15,17 @@ import sys
 from collections import Counter
 from curses.ascii import isdigit
 from mimetypes import MimeTypes  # Not necessary, we think
+from random import randint
+from proselint.tools import lint
 
 import nltk
 import textract
 from nltk import FreqDist, pos_tag, tokenize
 from nltk.corpus import cmudict, stopwords
 from nltk.tokenize import RegexpTokenizer
+from textstat.textstat import textstat
 
 from passive.passive import main as passive
-from textstat.textstat import textstat
-import datetime
-from random import randint
 
 
 # from mimetypes import MimeTypes
@@ -232,6 +233,18 @@ class Sample:
                 'JJ', self.pos_count_dict)
             self.adverb_count = self.pos_isolate_fuzzy(
                 'RB', self.pos_count_dict)
+            self.proper_nouns = self.pos_isolate_fuzzy(
+                'NNP', self.pos_count_dict)
+            self.cc_count = self.pos_isolate('CC', self.pos_count_dict)
+            self.commas = self.char_count(",")
+            self.comma_sentences = self.list_sentences(",")
+            self.comma_example = self.select_random(len(self.comma_sentences), self.comma_sentences)
+            self.semicolons = self.char_count(";")
+            self.semicolon_sentences = self.list_sentences(";")
+            self.semicolon_example = self.select_random(len(self.semicolon_sentences),
+                                                    self.semicolon_sentences)
+            self.lint_suggestions = lint(self.raw_text)
+
     def flesch_re_desc(self, score):
         if score < 30:
             return "Very Confusing"
@@ -461,12 +474,12 @@ class Sample:
         return datetime.datetime.now().strftime(fmt)
 
     def select_random(self, count, content):
-        top_of_range = 0 + count
-        choose = randint(0, top_of_range)
-        return content[choose]
+        if count > 0:
+            top_of_range = 0 + count
+            choose = randint(0, top_of_range)
+            return content[choose]
 
     def pos_count(self, pos, resource):
-        count = 0
         for x,y in resource:
             if x == pos:
                 return y
@@ -480,3 +493,17 @@ class Sample:
         for x, y in dictionary:
             if pos in x:
                 return y
+
+    def char_count(self, character):
+        count = 0
+        for sentence in self.sentence_tokens:
+            if character in sentence:
+                count = count + 1
+        return count
+
+    def list_sentences(self, character):
+        sentences = []
+        for sentence in self.sentence_tokens:
+            if character in sentence:
+                sentences.append(sentence)
+        return sentences

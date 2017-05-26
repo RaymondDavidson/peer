@@ -43,7 +43,7 @@
   <p>Example passive sentence from <em>{{ object.file_name }}</em> (randomly selected): "{{ object.rand_passive }}"</p>
   <p>Example <em>to be</em> usage from <em> {{ object.file_name }}</em>
        (randomly selected): "{{ object.rand_weak_sentence }}"</p>
-  <p>Prepositions: {{ object.preposition_count }} (across {{ object.sentence_count }} sentences)</p>
+  <p>Prepositions (or subordinating conjunctions!): {{ object.preposition_count }} (across {{ object.sentence_count }} sentences)</p>
 
 
 <h2>Readability</h2>
@@ -56,13 +56,32 @@
 <p>Linsear Write: {{ object.readability_linser_write }}</p>
 <p>Automated Readability Index: {{ object.readability_ari }}</p>
 <p>Readability (Standard): {{ object.readability_standard }}</p>
+
 <h2>Parts of Speech</h2>
-<p>POS Dictionary:</p>
-<em>{{ object.pos_count_dict }}</em>
-<p>Adverb count: {{ object.adverb_count }}
-<p>Adjective count: {{ object.adjective_count }}
+<p>Adverb count: {{ object.adverb_count }} of {{ object.lexicon_count }} words</p>
+<p>Adjective count: {{ object.adjective_count }} of {{ object.lexicon_count }} words</p>
+<p>Coordinating Conjunctions: {{ object.cc_count }} out of {{ object.lexicon_count }} words (or over {{ object.sentence_count }} sentences)</p>
+<p>Proper Nouns: {{object.proper_nouns }} out of {{ object.lexicon_count }} words</p>
+
+<h2>Punctuation</h2>
+<p>Comma Count: at least {{ object.commas }} commas over {{ object.sentence_count }} sentences</p>
+<p>Semicolons: at least {{ object.semicolons }} semicolons over {{ object.sentence_count }} sentences.</p>
 
 
+<p>Example comma usage: <em>{{ object.comma_example }}</em></p>
+
+
+<p>Example semicolon usage: <em>{{ object.semicolon_example }}</em></p>
+
+{% if object.semicolon_example }
+    <h2>Concrete Suggestions</h2>
+    <p>Please ignore quotation-mark style suggestions.</p>
+    <ol>
+        {% for suggestion in object.lint_suggestions %}
+        <li>{{ suggestion[1] }}</li>
+        {% endfor %}
+</ol>
+{% endif %}
 
 </div>
 

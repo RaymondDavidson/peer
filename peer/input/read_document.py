@@ -26,6 +26,8 @@ from nltk.tokenize import RegexpTokenizer
 from textstat.textstat import textstat
 
 from passive.passive import main as passive
+from unidecode import unidecode
+
 
 
 # from mimetypes import MimeTypes
@@ -143,6 +145,12 @@ class Sample:
             self.guessed_type = self.mime.guess_type(self.path)
             self.file_type = self.guessed_type[0]
             self.raw_text = textract.process(self.path, encoding="ascii")
+
+
+            #Experimental
+            #self.raw_text = textract.process(self.path)
+            #self.raw_text = unidecode(self.raw_text)
+
             self.ptext = re.sub(u'[\u201c\u201d]', '"', self.raw_text)
             self.ptext = re.sub(u"\u2014", "--", self.ptext)
             self.ptext = re.sub(",", ",", self.ptext)
@@ -227,6 +235,8 @@ class Sample:
                 self.pos_count_dict = self.pos_counts.items()
 
             # Model - use for any pos
+            self.modals = self.pos_isolate(
+                'MD', self.pos_count_dict)
             self.preposition_count = self.pos_isolate(
                             'IN', self.pos_count_dict)
             self.adjective_count = self.pos_isolate_fuzzy(

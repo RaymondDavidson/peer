@@ -10,6 +10,7 @@ from flask_nav import Nav
 from flask_nav.elements import *
 from input import read_document
 
+
 UPLOAD_FOLDER = 'tmp'
 # ALLOWED_EXTENSIONS = set(['txt', 'docx', 'doc', 'pdf', 'odt'])
 ALLOWED_EXTENSIONS = set(['txt', 'docx', 'pdf', 'odt'])
@@ -18,6 +19,7 @@ topbar = Navbar('',
     View('Home', 'intro'),
     View('Upload', 'upload_file'),
     View('Usage', 'usage'),
+    Link('Style Checks','http://proselint.com/checks/'),
     Subgroup('Resources',
              Link('Lard', 'http://proftgreene.pbworks.com/w/file/fetch/50167777/Richard%20Lanhams%20Paramedic%20Method%20of%20Revision.pdf'),
              Link('Readability', 'http://www.analyzemywriting.com/readability_indices.html'),

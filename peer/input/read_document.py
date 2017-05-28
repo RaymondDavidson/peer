@@ -145,12 +145,6 @@ class Sample:
             self.guessed_type = self.mime.guess_type(self.path)
             self.file_type = self.guessed_type[0]
             self.raw_text = textract.process(self.path, encoding="ascii")
-
-
-            #Experimental
-            #self.raw_text = textract.process(self.path)
-            #self.raw_text = unidecode(self.raw_text)
-
             self.ptext = re.sub(u'[\u201c\u201d]', '"', self.raw_text)
             self.ptext = re.sub(u"\u2014", "--", self.ptext)
             self.ptext = re.sub(",", ",", self.ptext)
@@ -414,8 +408,8 @@ class Sample:
         self.text_no_cr =\
             paragraphs.replace("\n\n",
                            "TOADIES").replace("\r",
-                                              "").replace("\n",
-                                                          "").replace(
+                                              "  ").replace("\n",
+                                                          "  ").replace(
                                                               "TOADIES", "\n")
         return self.text_no_cr
 

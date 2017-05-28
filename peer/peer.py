@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """ Routes for essay analysis interface"""
 
 import os
@@ -11,8 +12,8 @@ from flask_nav.elements import *
 from input import read_document
 
 
+
 UPLOAD_FOLDER = 'tmp'
-# ALLOWED_EXTENSIONS = set(['txt', 'docx', 'doc', 'pdf', 'odt'])
 ALLOWED_EXTENSIONS = set(['txt', 'docx', 'pdf', 'odt'])
 topbar = Navbar('',
     Text('Extra Eyes'),
@@ -40,22 +41,27 @@ nav.init_app(app)
 
 
 
-
 def allowed_file(filename):
+    """Make sure filetype has allowed extension."""
     return '.' in filename and \
         filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 @app.route('/')
 def intro():
-    # Should be explanatory content, examples, navigation
+    """Flask route to index with explanatory contant."""
     return render_template('index.html')
 
 
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_file():
+    """
+    Upload file to UPLOAD_FOLDER from form on upload template.
 
+    Return:
+        Redirect to feedback template on successful POST.
+    """
     if request.method == 'POST':
         if 'file' not in request.files:
             flash('No file part')
@@ -77,6 +83,7 @@ def upload_file():
 
 @app.route('/feedback')
 def feedback():
+    """Route to analysis results (of uploaded file)"""
     os.remove(Doc.path)
     return render_template('results.html', object=Doc)
 
@@ -88,13 +95,9 @@ def content():
 def usage():
     return render_template('usage.html')
 
-@app.route('/suggestions')
-def suggestions():
-    return render_template('suggestions.html', object=Doc)
-
 @app.errorhandler(500)
 def internal_server_error(e):
-    return render_template('500.html'), 500
+    return render_template('internal.html'), 500
 
 if __name__ == "__main__":
     app.run()

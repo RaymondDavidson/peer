@@ -10,7 +10,7 @@ from flask_bootstrap import Bootstrap
 from flask_nav import Nav
 from flask_nav.elements import *
 from input import read_document
-
+import werkzeug
 
 
 UPLOAD_FOLDER = 'tmp'
@@ -95,8 +95,8 @@ def content():
 def usage():
     return render_template('usage.html')
 
-@app.errorhandler(500)
-def internal_server_error(e):
+@app.errorhandler(werkzeug.exceptions.InternalServerError)
+def handle_internal_server_error(e):
     return render_template('internal.html'), 500
 
 if __name__ == "__main__":

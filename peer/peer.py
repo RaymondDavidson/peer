@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 """ Routes for essay analysis interface"""
-
 import os
 
 from werkzeug.utils import secure_filename

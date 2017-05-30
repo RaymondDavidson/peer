@@ -37,7 +37,7 @@ class TextSample:
     writing.
     """
 
-    def __init__(self, text):
+    def __init__(self, long_string):
         """
         Create document instance for analysis.
 
@@ -131,7 +131,7 @@ class TextSample:
         freq_words (list or dict): frequency distribution of all words
         modal_dist (list): frequency distribution of aux verbs
         """
-        self.raw_text = text
+        self.raw_text = long_string
         self.user = ""
         self.time_stamp = self.timestamp()
         self.ptext = re.sub(u'[\u201c\u201d]', '"', self.raw_text)
@@ -195,7 +195,8 @@ class TextSample:
         self.difficult_words = textstat.difficult_words(self.text_no_feed)
         self.rand_passive = self.select_random(self.passive_sentence_count,
                                                self.passive_sentences)
-        self.rand_weak_sentence = self.select_random(
+        if self.weak_sentences:
+            self.rand_weak_sentence = self.select_random(
                 len(self.weak_sentences), self.weak_sentences)
         if self.word_tokens_no_punct:
             self.word_count = len(self.word_tokens_no_punct)
@@ -232,10 +233,11 @@ class TextSample:
             self.comma_example = self.select_random(len(self.comma_sentences),
                                                     self.comma_sentences)
             self.semicolons = self.char_count(";")
-            self.semicolon_sentences = self.list_sentences(";")
-            self.semicolon_example = self.select_random(len(self.semicolon_sentences),
-                                                        self.semicolon_sentences
-                                                                            )
+            if self.semicolons:
+                self.semicolon_sentences = self.list_sentences(";")
+                self.semicolon_example = self.select_random(len
+                                (self.semicolon_sentences
+                                    ),self.semicolon_sentences)
             self.lint_suggestions = lint(self.raw_text)
 
     def flesch_re_desc(self, score):

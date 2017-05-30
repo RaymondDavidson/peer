@@ -19,6 +19,7 @@ topbar = Navbar('',
     View('About', 'about'),
     View('Home', 'intro'),
     View('Upload', 'upload_file'),
+    View('Paste Text', 'paste'),
     View('Usage', 'usage'),
     Link('Style Checks','http://proselint.com/checks/'),
     Subgroup('Resources',
@@ -56,6 +57,16 @@ def intro():
 def about():
     """Flask route to explanatory contant."""
     return render_template('about.html')
+
+@app.route('/paste', methods=['GET', 'POST'])
+def paste():
+    return render_template('paste.html')
+
+# temporary - testing only
+@app.route('/submit', methods=['POST'])
+def submit_textarea():
+    return "You entered: {}".format(request.form["textform"])
+
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_file():

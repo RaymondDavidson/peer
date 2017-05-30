@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+<div class="container">
+<form action="submit" id="textform" name="textform" method="post">
+<div class="form-group">
+    <label for="submission">Paste Prose</label>
+    <textarea class="form-control" id="submission" name="submission" rows="10">riverrun through Eve and Adams...</textarea>
+    <!--<input type="submit" value="Submit">-->
+</div>
+<button type="submit" value="submit" class="btn btn-primary">Submit</button>
+</form>
+</div>
+{% endblock %}

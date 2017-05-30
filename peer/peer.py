@@ -17,6 +17,7 @@ UPLOAD_FOLDER = 'tmp'
 ALLOWED_EXTENSIONS = set(['txt', 'docx', 'pdf', 'odt'])
 topbar = Navbar('',
     Text('Extra Eyes'),
+    View('About', 'about'),
     View('Home', 'intro'),
     View('Upload', 'upload_file'),
     View('Usage', 'usage'),
@@ -52,7 +53,10 @@ def intro():
     """Flask route to index with explanatory contant."""
     return render_template('index.html')
 
-
+@app.route('/about')
+def about():
+    """Flask route to explanatory contant."""
+    return render_template('about.html')
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_file():

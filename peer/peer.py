@@ -61,9 +61,11 @@ def paste():
     return render_template('paste.html')
 
 # temporary - testing only
-@app.route('/submit', methods=['GET', 'POST'])
-def submit_textarea():
-    return "You entered: {}".format(request.form["form.textarea"])
+@app.route('/paste_contents', methods=['GET', 'POST'])
+def paste_contents():
+    if request.method == 'POST':
+        result = request.form
+        return render_template("result.html", result = result)
 
 
 @app.route('/upload', methods=['GET', 'POST'])

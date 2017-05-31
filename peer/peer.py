@@ -23,8 +23,9 @@ topbar = Navbar('',
     View('Usage', 'usage'),
     Link('Style Checks','http://proselint.com/checks/'),
     Subgroup('Resources',
-             Link('Lard', 'http://proftgreene.pbworks.com/w/file/fetch/50167777/Richard%20Lanhams%20Paramedic%20Method%20of%20Revision.pdf'),
-             Link('Readability', 'http://www.analyzemywriting.com/readability_indices.html'),
+             Link('Lard', 'http://proftgreene.pbworks.com/w/file/fetch/50167777/Richard%20Lan    hams%20Paramedic%20Method%20of%20Revision.pdf'),
+             Link('Readability',
+                  'http://www.analyzemywriting.com/readability_indices.html'),
              Link('Revision Strategies', 'http://greyfiti.wikidot.com/sdg:gmeth-ref-guidelines-substantive-revision')
              ),
 )
@@ -36,10 +37,6 @@ Bootstrap(app)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['DEBUG'] = True
 nav.init_app(app)
-
-
-
-
 
 
 def allowed_file(filename):

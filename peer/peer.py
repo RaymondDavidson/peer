@@ -9,6 +9,7 @@ from flask_bootstrap import Bootstrap
 from flask_nav import Nav
 from flask_nav.elements import *
 from input import read_document
+from input import read_text
 import werkzeug
 
 
@@ -56,8 +57,17 @@ def about():
     return render_template('about.html')
 
 
-@app.route('/paste')
+@app.route('/paste', methods=['GET', 'POST'])
 def paste():
+    if request.method == 'POST':
+        result = request.form
+        if 'submission' not in result:
+            flash('No text submitted')
+            return redirect(request.url)
+        prose = result['submission']
+        global Sample
+        Sample = read_text.TextSample(prose)
+        return redirect(url_for('paste_results', object=Sample))
     return render_template('paste.html')
 
 # temporary - testing only
@@ -65,8 +75,12 @@ def paste():
 def paste_contents():
     if request.method == 'POST':
         result = request.form
-        return render_template("paste-results.html", result=result)
+        return render_template("paste_results.html", result=result)
 
+@app.route('/paste_results', methods=['GET', 'POST'])
+def paste_results():
+    """Route to analysis results (of pasted text)"""
+    return render_template('results.html', object=Sample)
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_file():

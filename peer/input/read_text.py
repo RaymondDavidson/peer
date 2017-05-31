@@ -270,7 +270,7 @@ class TextSample:
         return:
             str
         """
-        string_in = string_in.translate(None, ',.!?\"<>{}[]--@()\'--')
+        string_in = str(string_in).translate(None, ',.!?\"<>{}[]--@()\'--')
         return str(string_in.lower())
 
     def ws_tokenize(self, text):

@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% block page_content %}
+<style type="text/css" media="print">
+.dontprint
+{ display: none; }
+</style>
+<div class="container">
+    <div class="jumbotron dontprint">
+        <h1>Report for Paste from {{ object.timestamp }}</h1>
+        <p>A record of this report can be made through the browser menu. It can be sent to the printer or "printed" to create a PDF document that's saved to your computer.
+        <!--<p>Click "Review Full Text" at any time to review the source composition.</p>
+        <p><a href="/content" class="btn btn-primary" target="_blank">Review Full Text</a></p>-->
+    </div>
+</div>
+
+<div class="container">
+<h1>Report: <em>{{ object.time_stamp }}</em>
+<h2>Metadata</h2>
+    <p>Report Generated: {{ object.time_stamp }}</p>
+<h2>Statistics</h2>
+    <p>Page Count: {{ object.page_length }} (assuming 250 words per page)</p>
+    <p>Paper Sides: {{ object.paper_count }}
+    <!--<p>Word Count: {{ object.word_count }}</p>-->
+    <p>Sentence Count: {{ object.sentence_count }}</p>
+    <p>Average letters per word: {{ object.avg_letter_per_word }}</p>
+    <p>Average sentence length: {{ object.avg_sentence_length }}</p>
+    <!--<p>Average sentence per word(?): {{ object.avg_sentence_per_word }}</p>-->
+    <p>Average syllables per word: {{ object.avg_syllables_per_word }}</p>
+    <p>Polysyllables: {{ object.polysyllabcount }}</p>
+    <p>"Difficult words": {{ object.difficult_words }}</p>
+    <p>Lexicon count: {{ object.lexicon_count }}</p>
+<h2>Lard Analysis</h2>
+  <p>Occurences of the verb <em>to be</em>: {{ object.be_verb_count}}</p>
+  <p>All other aux verbs:</p>
+
+  <ul> {% for modal in object.modal_dist %}
+        <li>{{ modal }}</li>
+        {% endfor %}
+  </ul>
+  <p>Weak verbs to sentences: {{ object.weak_verbs_to_sentences_round }} % </p>
+  <p>Sentences with passive voice: {{ object.passive_sentence_count }}</p>
+  <p>Percent passive sentences (rounded): {{ object.percent_passive_round }} %</p>
+    <!--<p>Percent passive sentences: {{ object.percent_passive }}</p>-->
+  <p>Example passive sentence from {{ object.file_name }} (randomly selected): <em>{{ object.rand_passive }}</em></p>
+  <p>Example <em>to be</em> usage from {{ object.file_name }}
+       (randomly selected): <em>{{ object.rand_weak_sentence }}</em></p>
+  <p>Prepositions (or subordinating conjunctions!): {{ object.preposition_count }} (across {{ object.sentence_count }} sentences)</p>
+
+
+<h2>Readability</h2>
+<p>Flesch Reading Ease Score: {{ object.readability_flesch_re }} ({{object.flesch_re_desc_str}})</p>
+<p>Flesch-Kincaid Reading Grade: {{
+    object.readability_flesch_kincaid_grade }}</p>
+<p>Coleman Liau Index: {{ object.readability_coleman_liau_index }}</p>
+<p>SMOG Index: {{ object.readability_smog_index}}</p>
+<p>Dall Chall: {{ object.readability_dale_chall }}</p>
+<p>Linsear Write: {{ object.readability_linser_write }}</p>
+<p>Automated Readability Index: {{ object.readability_ari }}</p>
+<p>Readability (Standard): {{ object.readability_standard }}</p>
+
+<h2>Parts of Speech</h2>
+<p>Adverb count: {{ object.adverb_count }} of {{ object.lexicon_count }} words</p>
+<p>Adjective count: {{ object.adjective_count }} of {{ object.lexicon_count }} words</p>
+<p>Coordinating Conjunctions: {{ object.cc_count }} out of {{ object.lexicon_count }} words (or over {{ object.sentence_count }} sentences)</p>
+
+<h2>Punctuation</h2>
+<p>Comma Count: at least {{ object.commas }} commas over {{ object.sentence_count }} sentences</p>
+<p>Semicolons: at least {{ object.semicolons }} semicolons over {{ object.sentence_count }} sentences.</p>
+
+
+<p>Example comma usage: <em>{{ object.comma_example }}</em></p>
+
+
+<p>Example semicolon usage: <em>{{ object.semicolon_example }}</em></p>
+
+{% if object.semicolon_example %}
+    <h2>Concrete Suggestions for Consideration</h2>
+    <p>Please ignore quotation-mark style suggestions.</p>
+    <ol>
+        {% for suggestion in object.lint_suggestions %}
+        <li>{{ suggestion[1] }}</li>
+        {% endfor %}
+</ol>
+{% endif %}
+
+</div>
+
+{% endblock %}
+{% endblock %}

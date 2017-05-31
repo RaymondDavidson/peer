@@ -267,11 +267,11 @@ class Sample:
 
     def strip_punctuation(self, string_in):
         """
-        Strip punctuation from string and make lower case.
+        Strip punctuation from string and make it lower case.
 
         Given a string of sentences, translate string
-        to remove some common symbols and conver caps
-        to lower case.
+        to remove *some* common symbols and convert capital
+        letters to lower case.
 
         Args:
             string_in (str): Text to strip punctuation from
@@ -475,9 +475,24 @@ class Sample:
         return modals_freq
 
     def timestamp(self, fmt='%Y-%m-%d %H:%M'):
+        """
+        Set the date and time a document was uploaded.
+
+        Record the datetime a document is uploaded or
+        a paste is submitted.
+
+        returns:
+           Data and Time in US format, separated by space.
+        """
         return datetime.datetime.now().strftime(fmt)
 
     def select_random(self, count, content):
+        """
+        Choose a random example from a list.
+
+        Given a list and the length of the list,
+        return a random list member.
+        """
         if count > 0:
             top_of_range = 0 + count
             choose = randint(0, top_of_range)

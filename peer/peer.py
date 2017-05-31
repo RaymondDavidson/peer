@@ -4,7 +4,7 @@ import os
 
 from werkzeug.utils import secure_filename
 
-from flask import Flask, flash, redirect, render_template, request, url_for
+from flask import Flask, flash, redirect, render_template, request, url_for, session
 from flask_bootstrap import Bootstrap
 from flask_nav import Nav
 from flask_nav.elements import *
@@ -65,7 +65,7 @@ def paste():
 def paste_contents():
     if request.method == 'POST':
         result = request.form
-        return render_template("result.html", result = result)
+        return render_template("paste-results.html", result=result)
 
 
 @app.route('/upload', methods=['GET', 'POST'])
@@ -113,5 +113,11 @@ def usage():
 def handle_internal_server_error(e):
     return render_template('internal.html'), 500
 
+app.secret_key = 'riverrun'
+#app.config['SESSION_TYPE'] = 'filesystem'
+
+
 if __name__ == "__main__":
+    #app.run()
+
     app.run()

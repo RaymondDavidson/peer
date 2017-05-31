@@ -55,14 +55,15 @@ def about():
     """Flask route to explanatory contant."""
     return render_template('about.html')
 
-@app.route('/paste', methods=['GET', 'POST'])
+
+@app.route('/paste')
 def paste():
     return render_template('paste.html')
 
 # temporary - testing only
-@app.route('/submit', methods=['POST'])
+@app.route('/submit', methods=['GET', 'POST'])
 def submit_textarea():
-    return "You entered: {}".format(request.form["textform"])
+    return "You entered: {}".format(request.form["form.textarea"])
 
 
 @app.route('/upload', methods=['GET', 'POST'])

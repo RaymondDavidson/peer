@@ -8,15 +8,14 @@
 </style>
 <div class="container">
     <div class="jumbotron dontprint">
-        <h1>Report for Paste from {{ object.timestamp }}</h1>
+        <h1>Report for Paste: {{ object.time_stamp }}</h1>
         <p>A record of this report can be made through the browser menu. It can be sent to the printer or "printed" to create a PDF document that's saved to your computer.
-        <!--<p>Click "Review Full Text" at any time to review the source composition.</p>
-        <p><a href="/content" class="btn btn-primary" target="_blank">Review Full Text</a></p>-->
+        <p><a class="btn btn-primary" href="paste_full" target="_new">See Full Text...</a></p>
     </div>
 </div>
 
 <div class="container">
-<h1>Report: <em>{{ object.time_stamp }}</em>
+<h1>Report: {{ object.time_stamp }}
 <h2>Metadata</h2>
     <p>Report Generated: {{ object.time_stamp }}</p>
 <h2>Statistics</h2>
@@ -73,10 +72,12 @@
 <p>Example comma usage: <em>{{ object.comma_example }}</em></p>
 
 
-<p>Example semicolon usage: <em>{{ object.semicolon_example }}</em></p>
-
 {% if object.semicolon_example %}
-    <h2>Concrete Suggestions for Consideration</h2>
+    <p>Example semicolon usage: <em>{{ object.semicolon_example }}</em></p>
+{% endif %}
+
+{% if object.lint_suggestions %}
+<h2>Concrete Suggestions for Consideration</h2>
     <p>Please ignore quotation-mark style suggestions.</p>
     <ol>
         {% for suggestion in object.lint_suggestions %}

@@ -26,7 +26,7 @@ from nltk.tokenize import RegexpTokenizer
 from passive.passive import main as passive
 from proselint.tools import lint
 from textstat.textstat import textstat
-from unidecode import unidecode
+import unidecode
 
 
 class TextSample:
@@ -132,6 +132,7 @@ class TextSample:
         modal_dist (list): frequency distribution of aux verbs
         """
         self.raw_text = long_string
+        self.raw_text = unidecode.unidecode_expect_nonascii(self.raw_text)
         self.user = ""
         self.time_stamp = self.timestamp()
         self.ptext = re.sub(u'[\u201c\u201d]', '"', self.raw_text)

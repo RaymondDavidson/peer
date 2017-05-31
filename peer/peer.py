@@ -80,7 +80,11 @@ def paste_contents():
 @app.route('/paste_results', methods=['GET', 'POST'])
 def paste_results():
     """Route to analysis results (of pasted text)"""
-    return render_template('results.html', object=Sample)
+    return render_template('paste_results.html', object=Sample)
+
+@app.route('/paste_full')
+def paste_full():
+    return render_template('paste_text.html', object=Sample)
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_file():

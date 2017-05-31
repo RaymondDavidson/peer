@@ -74,11 +74,12 @@
 
 <p>Example comma usage: <em>{{ object.comma_example }}</em></p>
 
-
-<p>Example semicolon usage: <em>{{ object.semicolon_example }}</em></p>
-
 {% if object.semicolon_example %}
-    <h2>Concrete Suggestions for Consideration</h2>
+    <p>Example semicolon usage: <em>{{ object.semicolon_example }}</em></p>
+{% endif %}
+
+{% if object.lint_suggestions %}
+<h2>Concrete Suggestions for Consideration</h2>
     <p>Please ignore quotation-mark style suggestions.</p>
     <ol>
         {% for suggestion in object.lint_suggestions %}

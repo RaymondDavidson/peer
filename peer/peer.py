@@ -11,6 +11,7 @@ from flask_nav.elements import *
 from input import read_document
 from input import read_text
 import werkzeug
+import time
 
 
 UPLOAD_FOLDER = 'tmp'
@@ -67,6 +68,7 @@ def paste():
         prose = result['submission']
         global Doc
         Doc = read_document.Sample(prose)
+        time.sleep(5)
         return redirect(url_for('paste_results', object=Doc))
     return render_template('paste.html')
 
@@ -108,6 +110,7 @@ def upload_file():
             # return redirect(url_for('feedback',
             #    filename=filename))
             global Doc
+            time.sleep(5)
             Doc = read_document.Sample(UPLOAD_FOLDER + "/" + filename)
             return redirect(url_for('feedback'))
 

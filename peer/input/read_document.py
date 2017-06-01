@@ -26,7 +26,7 @@ from nltk.tokenize import RegexpTokenizer
 from textstat.textstat import textstat
 
 from passive.passive import main as passive
-from unidecode import unidecode
+import unidecode
 
 
 
@@ -145,7 +145,8 @@ class Sample:
             self.file_type = self.guessed_type[0]
             self.raw_text = textract.process(writing, encoding="ascii")
         else:
-            self.raw_text = self.writing
+            self.raw_text = writing
+            self.raw_text = unidecode.unidecode_expect_nonascii(self.raw_text)
         if self.raw_text:
             self.time_stamp = self.timestamp()
             #self.ptext = re.sub(u'[\u201c\u201d]', '"', self.raw_text)
@@ -281,7 +282,7 @@ class Sample:
         return:
             str
         """
-        string_in = string_in.translate(None, ',.!?\"<>{}[]--@()\'--')
+        string_in = str(string_in).translate(None, ',.!?\"<>{}[]--@()\'--')
         return str(string_in.lower())
 
     def ws_tokenize(self, text):

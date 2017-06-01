@@ -65,9 +65,9 @@ def paste():
             flash('No text submitted')
             return redirect(request.url)
         prose = result['submission']
-        global Sample
-        Sample = read_text.TextSample(prose)
-        return redirect(url_for('paste_results', object=Sample))
+        global Doc
+        Doc = read_document.Sample(prose)
+        return redirect(url_for('paste_results', object=Doc))
     return render_template('paste.html')
 
 # temporary - testing only
@@ -80,11 +80,11 @@ def paste_contents():
 @app.route('/paste_results', methods=['GET', 'POST'])
 def paste_results():
     """Route to analysis results (of pasted text)"""
-    return render_template('paste_results.html', object=Sample)
+    return render_template('paste_results.html', object=Doc)
 
 @app.route('/paste_full')
 def paste_full():
-    return render_template('paste_text.html', object=Sample)
+    return render_template('paste_text.html', object=Doc)
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_file():

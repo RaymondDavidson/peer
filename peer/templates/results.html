@@ -88,6 +88,21 @@
 </ol>
 {% endif %}
 
+
+
+{% if object.unrecognized_words %}
+  <h2>Unrecognized Words</h2>
+  <p><strong>Note</strong>: stripped apostrophes intefere with the provision of
+    a reliable list of unrecognized words -- this list may contain contractions
+    and possessives that are completely conventional in the original text.</p>
+  <ul>
+  {% for word in object.unrecognized_words %}
+     <li>{{ word }}</li>
+     {% endfor %}
+  </ul>
+{% endif %}
+
+
 </div>
 
 {% endblock %}

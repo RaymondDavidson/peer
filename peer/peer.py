@@ -68,7 +68,7 @@ def paste():
         prose = result['submission']
         global Doc
         Doc = read_document.Sample(prose)
-        time.sleep(5)
+        time.sleep(3)
         return redirect(url_for('paste_results', object=Doc))
     return render_template('paste.html')
 
@@ -110,7 +110,7 @@ def upload_file():
             # return redirect(url_for('feedback',
             #    filename=filename))
             global Doc
-            time.sleep(5)
+            time.sleep(3)
             Doc = read_document.Sample(UPLOAD_FOLDER + "/" + filename)
             return redirect(url_for('feedback'))
 

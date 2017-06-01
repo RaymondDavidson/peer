@@ -27,6 +27,7 @@ from textstat.textstat import textstat
 
 from passive.passive import main as passive
 import unidecode
+from enchant.checker import SpellChecker
 
 
 
@@ -143,6 +144,7 @@ class Sample:
             self.mime = MimeTypes()
             self.guessed_type = self.mime.guess_type(writing)
             self.file_type = self.guessed_type[0]
+            # self.raw_text = textract.process(writing, encoding="utf_8")
             self.raw_text = textract.process(writing, encoding="ascii")
         else:
             self.raw_text = writing
@@ -251,7 +253,10 @@ class Sample:
             self.semicolon_example = self.select_random(len(self.semicolon_sentences),
                                                 self.semicolon_sentences)
             self.lint_suggestions = lint(self.raw_text)
-
+            #self.unrecognized_words = self.spelling(self.raw_text)
+            #self.unrecognized_words_count = len(self.unrecognized_words)
+            #self.unrecognized_words_random = self.select_random(
+            #    self.unrecognized_words, self.unrecognized_words_count)
     def flesch_re_desc(self, score):
         if score < 30:
             return "Very Confusing"
@@ -529,3 +534,10 @@ class Sample:
             if character in sentence:
                 sentences.append(sentence)
         return sentences
+
+    def spelling(self, text_string):
+        chkr = SpellChecker("en_US", text_string)
+        unrecognized = []
+        for err in chkr:
+            unrecognized.append(err.word)
+        return unrecognized

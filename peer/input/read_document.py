@@ -144,7 +144,9 @@ class Sample:
             self.mime = MimeTypes()
             self.guessed_type = self.mime.guess_type(writing)
             self.file_type = self.guessed_type[0]
-            # self.raw_text = textract.process(writing, encoding="utf_8")
+            #self.raw_text = textract.process(writing,
+                encoding="unicode_internal")
+            #self.raw_text = unidecode.unidecode_expect_nonascii(self.raw_text)
             self.raw_text = textract.process(writing, encoding="ascii")
         else:
             self.raw_text = writing

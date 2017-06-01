@@ -41,7 +41,7 @@ class Sample:
     writing.
     """
 
-    def __init__(self, path):
+    def __init__(self, writing):
         """
         Create document instance for analysis.
 
@@ -136,21 +136,24 @@ class Sample:
         modal_dist (list): frequency distribution of aux verbs
         """
         self.user = ""
-        self.path = path
-        self.abs_path = os.path.abspath(self.path)
-        if os.path.isfile(self.path):
-            self.time_stamp = self.timestamp()
-            self.file_name = os.path.basename(path)
+        if os.path.isfile(writing):
+            self.abs_path = os.path.abspath(writing)
+
+            self.file_name = os.path.basename(writing)
             self.mime = MimeTypes()
-            self.guessed_type = self.mime.guess_type(self.path)
+            self.guessed_type = self.mime.guess_type(writing)
             self.file_type = self.guessed_type[0]
-            self.raw_text = textract.process(self.path, encoding="ascii")
-            self.ptext = re.sub(u'[\u201c\u201d]', '"', self.raw_text)
-            self.ptext = re.sub(u"\u2014", "--", self.ptext)
-            self.ptext = re.sub(",", ",", self.ptext)
-            self.ptext = re.sub("—", "--", self.ptext)
-            self.ptext = re.sub("…", "...", self.ptext)
-            self.text_no_feed = self.clean_new_lines(self.ptext)
+            self.raw_text = textract.process(writing, encoding="ascii")
+        else:
+            self.raw_text = self.writing
+        if self.raw_text:
+            self.time_stamp = self.timestamp()
+            #self.ptext = re.sub(u'[\u201c\u201d]', '"', self.raw_text)
+            #self.ptext = re.sub(u"\u2014", "--", self.ptext)
+            #self.ptext = re.sub(",", ",", self.ptext)
+            #self.ptext = re.sub("—", "--", self.ptext)
+            #self.ptext = re.sub("…", "...", self.ptext)
+            self.text_no_feed = self.clean_new_lines(self.raw_text)
             self.sentence_tokens = self.sentence_tokenize(self.text_no_feed)
             self.sentence_count = len(self.sentence_tokens)
             self.passive_sentences = passive(self.text_no_feed)
@@ -175,8 +178,7 @@ class Sample:
             self.no_punct = self.strip_punctuation(self.text_no_feed)
             # use this! It make lower and strips symbols
             self.word_tokens_no_punct = self.ws_tokenize(self.no_punct)
-
-
+            # readability data
             self.readability_flesch_re = \
                 textstat.flesch_reading_ease(self.text_no_feed)
             self.readability_smog_index = \
@@ -193,7 +195,6 @@ class Sample:
                 textstat.dale_chall_readability_score(self.text_no_feed)
             self.readability_standard = \
                 textstat.text_standard(self.text_no_feed)
-
             self.flesch_re_desc_str = self.flesch_re_desc(int(
                 textstat.flesch_reading_ease(self.text_no_feed)))
             self.polysyllabcount = textstat.polysyllabcount(self.text_no_feed)
@@ -207,28 +208,27 @@ class Sample:
             self.avg_letter_per_word = textstat.avg_letter_per_word(
                 self.text_no_feed)
             self.difficult_words = textstat.difficult_words(self.text_no_feed)
+            # passive
             self.rand_passive = self.select_random(self.passive_sentence_count,
                                                    self.passive_sentences)
             self.rand_weak_sentence = self.select_random(
                 len(self.weak_sentences), self.weak_sentences)
-            if self.word_tokens_no_punct:
-                self.word_count = len(self.word_tokens_no_punct)
-                self.page_length = float(self.word_count)/float(250)
-                self.paper_count = int(math.ceil(self.page_length))
-                self.parts_of_speech = pos_tag(self.word_tokens_no_punct)
-                self.pos_counts = Counter(tag for word, tag in
-                                          self.parts_of_speech)
-                self.pos_total = sum(self.pos_counts.values())
-                self.pos_freq = dict((word, float(count)/self.pos_total) for
-                                     word, count in self.pos_counts.items())
-                self.doc_pages = float(float(self.word_count)/float(250))
-                self.freq_words = \
-                    self.word_frequency(self.word_tokens_no_punct)
-                self.modal_dist = self.modal_count(self.word_tokens_no_punct)
-                # self.ws_tokens = self.ws_tokenize(self.text_no_cr)
-                self.pos_count_dict = self.pos_counts.items()
-
-            # Model - use for any pos
+            self.word_count = len(self.word_tokens_no_punct)
+            self.page_length = float(self.word_count)/float(250)
+            self.paper_count = int(math.ceil(self.page_length))
+            self.parts_of_speech = pos_tag(self.word_tokens_no_punct)
+            self.pos_counts = Counter(tag for word, tag in
+                                      self.parts_of_speech)
+            self.pos_total = sum(self.pos_counts.values())
+            self.pos_freq = dict((word, float(count)/self.pos_total) for
+                                 word, count in self.pos_counts.items())
+            self.doc_pages = float(float(self.word_count)/float(250))
+            self.freq_words = \
+                self.word_frequency(self.word_tokens_no_punct)
+            self.modal_dist = self.modal_count(self.word_tokens_no_punct)
+            # self.ws_tokens = self.ws_tokenize(self.text_no_cr)
+            self.pos_count_dict = self.pos_counts.items()
+            # model for ony pos count
             self.modals = self.pos_isolate(
                 'MD', self.pos_count_dict)
             self.preposition_count = self.pos_isolate(
@@ -240,13 +240,15 @@ class Sample:
             self.proper_nouns = self.pos_isolate_fuzzy(
                 'NNP', self.pos_count_dict)
             self.cc_count = self.pos_isolate('CC', self.pos_count_dict)
+            # commas
             self.commas = self.char_count(",")
             self.comma_sentences = self.list_sentences(",")
             self.comma_example = self.select_random(len(self.comma_sentences), self.comma_sentences)
+            # semicolons
             self.semicolons = self.char_count(";")
             self.semicolon_sentences = self.list_sentences(";")
             self.semicolon_example = self.select_random(len(self.semicolon_sentences),
-                                                    self.semicolon_sentences)
+                                                self.semicolon_sentences)
             self.lint_suggestions = lint(self.raw_text)
 
     def flesch_re_desc(self, score):

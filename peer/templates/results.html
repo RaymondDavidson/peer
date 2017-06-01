@@ -19,7 +19,7 @@
 <h1>Report: <em>{{ object.file_name }} ({{ object.time_stamp }})</em>
 <h2>Metadata</h2>
     <p>File Name: {{ object.file_name }}</p>
-    <p>Path to file: {{ object.path }}</p>
+    <p>Path to file: {{ object.abs_path }}</p>
     <p>Report Generated: {{ object.time_stamp }}</p>
 <h2>Statistics</h2>
     <p>Page Count: {{ object.page_length }} (assuming 250 words per page)</p>

@@ -116,7 +116,7 @@ def upload_file():
 @app.route('/feedback')
 def feedback():
     """Route to analysis results (of uploaded file)"""
-    os.remove(Doc.path)
+    os.remove(Doc.abs_path)
     return render_template('results.html', object=Doc)
 
 @app.route('/content')

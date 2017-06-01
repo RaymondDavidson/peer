@@ -253,10 +253,10 @@ class Sample:
             self.semicolon_example = self.select_random(len(self.semicolon_sentences),
                                                 self.semicolon_sentences)
             self.lint_suggestions = lint(self.raw_text)
-            #self.unrecognized_words = self.spelling(self.raw_text)
-            #self.unrecognized_words_count = len(self.unrecognized_words)
-            #self.unrecognized_words_random = self.select_random(
-            #    self.unrecognized_words, self.unrecognized_words_count)
+            self.unrecognized_words = self.spelling(self.raw_text)
+            self.unrecognized_words_count = len(self.unrecognized_words)
+            self.unrecognized_words_random = self.select_random(
+                    self.unrecognized_words_count,self.unrecognized_words)
     def flesch_re_desc(self, score):
         if score < 30:
             return "Very Confusing"

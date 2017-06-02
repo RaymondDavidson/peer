@@ -12,24 +12,24 @@ import os
 import re
 import string
 import sys
+import time
 from collections import Counter
 from curses.ascii import isdigit
 from mimetypes import MimeTypes  # Not necessary, we think
 from random import randint
-from proselint.tools import lint
 
+import docx2txt
 import nltk
 import textract
+import unidecode
 from nltk import FreqDist, pos_tag, tokenize
 from nltk.corpus import cmudict, stopwords
 from nltk.tokenize import RegexpTokenizer
+from proselint.tools import lint
 from textstat.textstat import textstat
 
-from passive.passive import main as passive
-import unidecode
 from enchant.checker import SpellChecker
-import time
-
+from passive.passive import main as passive
 
 
 # from mimetypes import MimeTypes
@@ -148,7 +148,15 @@ class Sample:
             #self.raw_text = textract.process(writing,
                 #encoding="unicode_internal")
             #self.raw_text = unidecode.unidecode_expect_nonascii(self.raw_text)
-            self.raw_text = textract.process(writing, encoding="ascii")
+            if self.file_type == \
+                        "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+                self.raw_text = self.docxDeal(self.abs_path)
+            elif self.file_type == "text/plain":
+                self.raw_text = open(self.abs_path).read()
+                self.raw_text = \
+                    unidecode.unidecode_expect_nonascii(self.raw_text)
+            else:
+                self.raw_text = textract.process(writing, encoding="ascii")
         else:
             self.raw_text = writing
             self.raw_text = unidecode.unidecode_expect_nonascii(self.raw_text)
@@ -545,3 +553,8 @@ class Sample:
         for err in chkr:
             unrecognized.append(err.word)
         return unrecognized
+
+    def docxDeal(self, file):
+        raw_text = docx2txt.process(self.abs_path)
+        raw_text = unidecode.unidecode_expect_nonascii(raw_text)
+        return raw_text

@@ -28,6 +28,7 @@ from textstat.textstat import textstat
 from passive.passive import main as passive
 import unidecode
 from enchant.checker import SpellChecker
+import time
 
 
 
@@ -503,6 +504,7 @@ class Sample:
         Given a list and the length of the list,
         return a random list member.
         """
+        time.sleep(3)
         if count > 0:
             top_of_range = 0 + count
             choose = randint(0, top_of_range)

@@ -134,8 +134,8 @@ def usage():
 def handle_internal_server_error(e):
     return render_template('internal.html'), 500
 
-#app.secret_key = 'riverrun'
-#app.config['SESSION_TYPE'] = 'filesystem'
+app.secret_key = 'riverrun'
+app.config['SESSION_TYPE'] = 'filesystem'
 
 
 if __name__ == "__main__":

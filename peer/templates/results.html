@@ -93,6 +93,7 @@
 
 
 {% if object.unrecognized_words %}
+  {% if "odt" not in object.file_name %}
   <h2>Unrecognized Words</h2>
   <p><strong>Note</strong>: stripped apostrophes intefere with the provision of
     a reliable list of unrecognized words -- this list may contain contractions
@@ -102,8 +103,8 @@
      <li>{{ word }}</li>
      {% endfor %}
   </ul>
+  {% endif %}
 {% endif %}
-
 
 </div>
 

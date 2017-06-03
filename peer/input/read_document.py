@@ -512,7 +512,7 @@ class Sample:
         Given a list and the length of the list,
         return a random list member.
         """
-        time.sleep(3)
+        #time.sleep(3)
         if count > 0:
             top_of_range = 0 + count
             choose = randint(0, top_of_range)

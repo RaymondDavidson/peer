@@ -31,7 +31,7 @@ ALLOWED_EXTENSIONS = set(['txt', 'docx', 'pdf', 'odt'])
 topbar = Navbar('',
     Text('Extra Eyes'),
     View('About', 'about'),
-    View('Home', 'intro'),
+    View('Home', 'clearSession'),
     #View('Upload', 'upload_file'),
     #View('Paste Text', 'paste'),
     View('Usage', 'usage'),

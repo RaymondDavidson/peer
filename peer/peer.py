@@ -25,7 +25,7 @@ Defined differently for difference scenarios:
 
 UPLOAD_FOLDER = 'tmp' # local dev
 # UPLOAD_FOLDER = '/tmp' # pythonanywhere
-# UPLOAD_FOLDER = /var/www/peer/peer/tmp # wsgi
+# UPLOAD_FOLDER = '/var/www/peer/peer/tmp' # wsgi
 
 ALLOWED_EXTENSIONS = set(['txt', 'docx', 'pdf', 'odt'])
 topbar = Navbar('',

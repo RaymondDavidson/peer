@@ -80,7 +80,7 @@ def clearSession():
 
     try:
         deleteInstance(Doc) # untested
-        print "Instance deleted"
+        print "Instance (Doc) deleted"
     except:
         print "Delete Doc failed."
         pass
@@ -100,7 +100,7 @@ def deleteInstance(instance):
     and displaying the results (instance).
     """
 
-    del Doc
+    del instance
 
 @app.route('/')
 def intro():

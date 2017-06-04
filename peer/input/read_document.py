@@ -150,15 +150,16 @@ class Sample:
             #self.raw_text = unidecode.unidecode_expect_nonascii(self.raw_text)
             if self.file_type == \
                         "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
-                self.raw_text = self.docxDeal(self.abs_path)
+                self.raw_text = unicode(self.docxDeal(self.abs_path))
             elif self.file_type == "text/plain":
-                self.raw_text = open(self.abs_path).read()
+                self.raw_text = unicode(open(self.abs_path).read())
                 self.raw_text = \
                     unidecode.unidecode_expect_nonascii(self.raw_text)
             else:
                 self.raw_text = textract.process(writing, encoding="ascii")
+                #self.raw_text = textract.process(writing)
         else:
-            self.raw_text = writing
+            self.raw_text = unicode(writing)
             self.raw_text = unidecode.unidecode_expect_nonascii(self.raw_text)
         if self.raw_text:
             self.time_stamp = self.timestamp()

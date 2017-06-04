@@ -11,7 +11,7 @@ from flask_nav.elements import *
 from input import read_document
 from input import read_text
 import werkzeug
-#import time
+# import time
 
 """
 Upload Folder
@@ -27,7 +27,7 @@ UPLOAD_FOLDER = 'tmp' # local dev
 # UPLOAD_FOLDER = '/tmp' # pythonanywhere
 # UPLOAD_FOLDER = '/var/www/peer/peer/tmp' # wsgi
 
-ALLOWED_EXTENSIONS = set(['txt', 'docx', 'pdf', 'odt'])
+ALLOWED_EXTENSIONS = set(['txt', 'docx', 'odt'])
 topbar = Navbar('',
     Text('Extra Eyes'),
     View('About', 'about'),
@@ -99,8 +99,11 @@ def deleteInstance(instance):
     Part of work to identify the cause of the inconsistent success creating
     and displaying the results (instance).
     """
-
-    del instance
+    try:
+        del instance
+    except:
+        print "Could not delete instance 'Doc'. I may not have existed."
+        pass
 
 @app.route('/')
 def intro():

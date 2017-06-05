@@ -3,15 +3,19 @@
 """
 Identify cliches in writing.
 
-Given a very long string of prose as an argument to a function, look 
+Given a very long string of prose as an argument to a function, look
 for cliches matched from a list of 681 common cliches. Return the number
 of cliches found in the text; return a list of the cliches found in the
 text.
 
-.. todo: 
+.. todo:
     * remember to make the search case insensitive or find a similar
 solution.
     * make a main function
+    * put the list inside a function
+    * this is a prototype
+    * the function must be callable from another module
+    * all elements that require docstrings must have docstrings
 """
 
 cliches = [
@@ -698,20 +702,22 @@ cliches = [
     'you\'re the boss'
 ]
 
+
 def main(listOfPhrases, text_to_check)
     """
     Provide a count of cliches in a text; provide a list of them.
-    
-    
+
+
     Params:
 		list of phrases (list)
 		text_to_check (string)
-    
+
     Returns:
 		count (str)
 		list
-    
+
     """
 
+
 if __name__ == "__main__":
-	main()
+    main()

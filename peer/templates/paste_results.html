@@ -76,6 +76,18 @@
     <p>Example semicolon usage: <em>{{ object.semicolon_example }}</em></p>
 {% endif %}
 
+
+{% if object.cliche_count %}
+    <h2>Cliché Identification</h2>
+        <p>Cliché Count: {{ object.cliche_count }}</p>
+        <ol>
+            {% for cliche in object.cliches_in_text %}
+            <li>{{ cliche }}</li>
+            {% endfor %}
+        </ol>
+{% endif %}
+
+
 {% if object.lint_suggestions %}
 <h2>Concrete Suggestions for Consideration</h2>
     <p>Please ignore quotation-mark style suggestions.</p>

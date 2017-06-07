@@ -30,6 +30,7 @@ from textstat.textstat import textstat
 
 from enchant.checker import SpellChecker
 from passive.passive import main as passive
+from cliches import cliches
 
 
 # from mimetypes import MimeTypes
@@ -152,7 +153,7 @@ class Sample:
                         "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
                 self.raw_text = unicode(self.docxDeal(self.abs_path))
             elif self.file_type == "text/plain":
-                self.raw_text = unicode(open(self.abs_path).read())
+                self.raw_text = open(self.abs_path).read()
                 self.raw_text = \
                     unidecode.unidecode_expect_nonascii(self.raw_text)
             else:
@@ -269,6 +270,12 @@ class Sample:
             self.unrecognized_words_count = len(self.unrecognized_words)
             self.unrecognized_words_random = self.select_random(
                     self.unrecognized_words_count,self.unrecognized_words)
+            #cliche catcher
+            self.cliche_list = cliches.cliches()
+            self.cliche_results = cliches.process_cliches(self.cliche_list,
+                                              self.raw_text.lower())
+            self.cliches_in_text = self.cliche_results[1]
+            self.cliche_count = self.cliche_results[0]
     def flesch_re_desc(self, score):
         if score < 30:
             return "Very Confusing"

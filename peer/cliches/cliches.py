@@ -1,40 +1,8 @@
 # -*- coding: utf-8 -*-
 
-"""
-Identify cliches in writing.
 
-Given a very long string of prose as an argument to a function, look
-for cliches matched from a list of 681 common cliches. Return the number
-of cliches found in the text; return a list of the cliches found in the
-text.
-
-.. todo:
-    * remember to make the search case insensitive or find a similar
-solution.
-    * make a main function
-    * put the list inside a function
-    * this is a prototype
-    * the function must be callable from another module
-    * all elements that require docstrings must have docstrings
-"""
-
-
-
-def main(text_to_check):
-    """
-    Provide a count of cliches in a text; provide a list of them.
-
-    Params:
-		list of phrases (list)
-		text_to_check (string)
-
-    Returns:
-		count (int): count of cliches in text
-		caught (list): cliches found in text
-
-    """
-
-    cliches = [
+def cliches():
+    cliche_list = [
         'a chip off the old block',
         'a clean slate',
         'a dark and stormy night',
@@ -717,15 +685,23 @@ def main(text_to_check):
         'young and vibrant',
         'you\'re the boss'
     ]
+    return cliche_list
 
+
+
+def process_cliches(phrase_list, text):
     count = 0
     caught = []
-    for cliche in cliches:
-        if cliche in text_to_check.lower():
+    for cliche in phrase_list:
+        if cliche in text:
             count += 1
             if not cliche in caught:
                 caught.append(cliche)
-
     return count, caught
+
+
+
+
+
 
 #if __name__ == "__main__":

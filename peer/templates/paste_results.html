@@ -10,7 +10,10 @@
     <div class="jumbotron dontprint">
         <h1>Report for Paste: {{ object.time_stamp }}</h1>
         <p>A record of this report can be made through the browser menu. It can be sent to the printer or "printed" to create a PDF document that's saved to your computer.
-        <p><a class="btn btn-primary" href="paste_full" target="_new">See Full Text...</a></p>
+        <div class="btn-group">
+          <a class="btn btn-primary" href="paste_full" target="_new">See Full Text...</a>
+          <a href="/clear" class="btn btn-warning">Purge Data</a>
+        </div>
     </div>
 </div>
 

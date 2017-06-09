@@ -559,7 +559,8 @@ class Sample:
         chkr = SpellChecker("en_US", text_string)
         unrecognized = []
         for err in chkr:
-            unrecognized.append(err.word)
+            if err.word not in unrecognized:
+                unrecognized.append(err.word)
         return unrecognized
 
     def docxDeal(self, file):

@@ -120,9 +120,10 @@
   {% endif %}
 {% endif %}
 
-<h2>Sentiment</h2>
+{% if object.sentiment %}
+<h2>Additional Information</h2>
    <p>Sentiment: {{ object.sentiment }}</p>
-
+{% endif %}
 
 </div>
 

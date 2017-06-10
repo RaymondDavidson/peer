@@ -282,7 +282,8 @@ class Sample:
             try:
                 self.sentiment = sentiment.sentiment_result(self.raw_text)
             except:
-                self.sentiment = "No result available"
+                self.sentiment = ""
+                pass
     def flesch_re_desc(self, score):
         if score < 30:
             return "Very Confusing"

@@ -83,6 +83,9 @@
     <p>Example semicolon usage: <em>{{ object.semicolon_example }}</em></p>
 {% endif %}
 
+
+
+
 {% if object.cliche_count %}
     <h2>Cliché Identification</h2>
         <p>Cliché Count: {{ object.cliche_count }}</p>
@@ -108,9 +111,7 @@
 {% if object.unrecognized_words %}
   {% if "odt" not in object.file_name %}
   <h2>Unrecognized Words</h2>
-  <p><strong>Note</strong>: stripped apostrophes intefere with the provision of
-    a reliable list of unrecognized words -- this list may contain contractions
-    and possessives that are completely conventional in the original text.</p>
+  <p><strong>Note:</strong> An opportunity to see if the text was munged.</p>
   <ul>
   {% for word in object.unrecognized_words %}
      <li>{{ word }}</li>
@@ -119,7 +120,12 @@
   {% endif %}
 {% endif %}
 
+<h2>Sentiment</h2>
+   <p>Sentiment: {{ object.sentiment }}</p>
+
+
 </div>
+
 
 {% endblock %}
 {% endblock %}

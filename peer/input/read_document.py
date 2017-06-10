@@ -32,6 +32,8 @@ from enchant.checker import SpellChecker
 from passive.passive import main as passive
 from cliches import cliches
 
+from sentiment import sentiment
+
 
 # from mimetypes import MimeTypes
 
@@ -276,6 +278,11 @@ class Sample:
                                               self.raw_text.lower())
             self.cliches_in_text = self.cliche_results[1]
             self.cliche_count = self.cliche_results[0]
+            #sentiment - external via api
+            try:
+                self.sentiment = sentiment.sentiment_result(self.raw_text)
+            except:
+                self.sentiment = "No result available"
     def flesch_re_desc(self, score):
         if score < 30:
             return "Very Confusing"

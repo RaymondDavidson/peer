@@ -305,7 +305,8 @@ class Sample:
             self.subjectivity = self.blob.sentiment.subjectivity
             self.intro = self.sentence_tokens[0]
             self.exit = self.sentence_tokens[-1]
-
+            # tags
+            self.tags = self.tag_phrases(TextBlob(self.raw_text))
     def flesch_re_desc(self, score):
         if score < 30:
             return "Very Confusing"
@@ -558,6 +559,7 @@ class Sample:
                 return content[choose]
         except:
             print "Failed to select a random example from a list. Please try again."
+            pass
     def pos_count(self, pos, resource):
         for x,y in resource:
             if x == pos:
@@ -606,3 +608,11 @@ class Sample:
             if len(sentence.split()) > 20:
                 count += 1
         return count
+
+    def tag_phrases(self, blob):
+        blob_noun_phrases = blob.noun_phrases
+        noun_phrases = []
+        for phrase in blob_noun_phrases:
+            if phrase not in noun_phrases:
+                noun_phrases.append(phrase)
+        return noun_phrases

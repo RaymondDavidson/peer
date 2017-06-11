@@ -143,6 +143,14 @@
   {% endif %}
 {% endif %}
 
+{% if object.tags %}
+    <h2>Tags</h2>
+        <ul>
+            {% for tag in object.tags %}
+            <li>{{ tag }}</li>
+            {% endfor %}
+        </ul>
+{% endif %}
 
 
 

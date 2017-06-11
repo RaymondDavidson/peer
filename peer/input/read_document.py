@@ -225,6 +225,7 @@ class Sample:
                 self.text_no_feed)
             self.avg_letter_per_word = textstat.avg_letter_per_word(
                 self.text_no_feed)
+            self.long_sentences = self.sentences_20(self.sentence_tokens)
             self.difficult_words = textstat.difficult_words(self.text_no_feed)
             # passive
             self.rand_passive = self.select_random(self.passive_sentence_count,
@@ -278,7 +279,7 @@ class Sample:
             self.exclamations = self.list_sentences("!")
             self.exclamation_example = self.select_random(len(
                 self.exclamations), self.exclamations)
-            
+
             #proselint
             self.lint_suggestions = lint(self.raw_text)
             # unrecognized words
@@ -304,6 +305,7 @@ class Sample:
             self.subjectivity = self.blob.sentiment.subjectivity
             self.intro = self.sentence_tokens[0]
             self.exit = self.sentence_tokens[-1]
+
     def flesch_re_desc(self, score):
         if score < 30:
             return "Very Confusing"
@@ -597,3 +599,10 @@ class Sample:
         raw_text = docx2txt.process(self.abs_path)
         raw_text = unidecode.unidecode_expect_nonascii(raw_text)
         return raw_text
+
+    def sentences_20(self, sentences):
+        count = 0
+        for sentence in sentences:
+            if len(sentence.split()) > 20:
+                count += 1
+        return count

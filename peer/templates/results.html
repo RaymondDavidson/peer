@@ -34,6 +34,7 @@
     <p>Average letters per word: {{ object.avg_letter_per_word }}</p>
     <p>Average sentence length: {{ object.avg_sentence_length }}</p>
     <!--<p>Average sentence per word(?): {{ object.avg_sentence_per_word }}</p>-->
+    <p>Sentences > 20 words: {{ object.long_sentences }} (<em>of {{ object.sentence_count }} sentences)</p>
     <p>Average syllables per word: {{ object.avg_syllables_per_word }}</p>
     <p>Polysyllables (words with 3 or more syllables): {{ object.polysyllabcount }}</p>
     <p>"Difficult words": {{ object.difficult_words }}</p>

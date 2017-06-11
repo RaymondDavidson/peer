@@ -33,7 +33,7 @@ from passive.passive import main as passive
 from cliches import cliches
 
 from sentiment import sentiment
-
+from textblob import TextBlob
 
 # from mimetypes import MimeTypes
 
@@ -265,9 +265,23 @@ class Sample:
             # semicolons
             self.semicolons = self.char_count(";")
             self.semicolon_sentences = self.list_sentences(";")
-            self.semicolon_example = self.select_random(len(self.semicolon_sentences),
+            self.semicolon_example = self.select_random(len
+                                                         (self.semicolon_sentences),
                                                 self.semicolon_sentences)
+            #questions
+            self.question_marks = self.char_count("?")
+            self.questions = self.list_sentences("?")
+            self.question_example = self.select_random(len(
+                self.questions), self.questions)
+            # exclamations
+            self.bangs = self.char_count("!")
+            self.exclamations = self.list_sentences("!")
+            self.exclamation_example = self.select_random(len(
+                self.exclamations), self.exclamations)
+            
+            #proselint
             self.lint_suggestions = lint(self.raw_text)
+            # unrecognized words
             self.unrecognized_words = self.spelling(self.raw_text)
             self.unrecognized_words_count = len(self.unrecognized_words)
             self.unrecognized_words_random = self.select_random(
@@ -280,10 +294,16 @@ class Sample:
             self.cliche_count = self.cliche_results[0]
             #sentiment - external via api
             try:
-                self.sentiment = sentiment.sentiment_result(self.raw_text)
+                self.api_sentiment = sentiment.sentiment_result(self.raw_text)
             except:
-                self.sentiment = ""
+                self.api_sentiment = ""
                 pass
+            #TextBlob attributes
+            self.blob = TextBlob(self.raw_text)
+            self.polarity = self.blob.sentiment.polarity
+            self.subjectivity = self.blob.sentiment.subjectivity
+            self.intro = self.sentence_tokens[0]
+            self.exit = self.sentence_tokens[-1]
     def flesch_re_desc(self, score):
         if score < 30:
             return "Very Confusing"
@@ -529,11 +549,13 @@ class Sample:
         return a random list member.
         """
         #time.sleep(3)
-        if count > 0:
-            top_of_range = 0 + count
-            choose = randint(0, top_of_range)
-            return content[choose]
-
+        try:
+            if count > 0:
+                top_of_range = 0 + count
+                choose = randint(0, top_of_range)
+                return content[choose]
+        except:
+            print "Failed to select a random example from a list. Please try again."
     def pos_count(self, pos, resource):
         for x,y in resource:
             if x == pos:

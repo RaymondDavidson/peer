@@ -84,8 +84,10 @@
 
 <h2>Punctuation</h2>
 <p>Comma Count: at least {{ object.commas }} commas over {{ object.sentence_count }} sentences</p>
-<p>Semicolons: {{ object.semicolons }} semicolons over {{ object.sentence_count }} sentences.</p>
 
+{% if object.semicolons %}
+<p>Semicolons: {{ object.semicolons }} semicolons over {{ object.sentence_count }} sentences.</p>
+{% endif %}
 
 
 

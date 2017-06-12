@@ -3,14 +3,15 @@
 
 {% block page_content %}
 <div class="container">
-<div class="hidden-print">
-    <div class="jumbotron">
-        <h1>Report for {{ object.file_name }}</h1>
-        <p>A record of this report can be made through the browser menu. It can be sent to the printer or "printed" to create a PDF document that's saved to your computer.
-        <p>Click "Review Full Text" at any time to review the source composition.</p>
-        <div class="btn-group">
-            <!--<a href="/content" class="btn btn-primary" target="_blank">Review Full Text</a>-->
-            <a href="/clear" class="btn btn-warning">Purge Data</a>
+    <div class="hidden-print">
+        <div class="jumbotron">
+            <h1>Report for {{ object.file_name }}</h1>
+            <p>A record of this report can be made through the browser menu. It can be sent to the printer or "printed" to create a PDF document that's saved to your computer.
+            <p>Click "Review Full Text" at any time to review the source composition.</p>
+            <div class="btn-group">
+                <!--<a href="/content" class="btn btn-primary" target="_blank">Review Full Text</a>-->
+                <a href="/clear" class="btn btn-warning">Purge Data</a>
+            </div>
         </div>
     </div>
 </div>
@@ -18,293 +19,299 @@
 
 
 
+<div class="container">
+    <h1>Report: <em>{{ object.file_name }} ({{ object.time_stamp }})</em></h1>
+</div>
 
 
-<h1>Report: <em>{{ object.file_name }} ({{ object.time_stamp }})</em></h1>
 
+<div class="container">
+    <div class="hidden-print">
+        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="report">
+                    <h4 class="panel-title">
+                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#metadata" aria-expanded="true" aria-controls="collapseOne">
+                        Metadata
+                        </a>
+                    </h4>
+                </div>
+                <div class="panel-collapse collapse in" id="metadata" role="tabpanel">
+                    <div class="panel-body">
 
-<div class="hidden-print">
-    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-        <div class="panel panel-default">
-            <div class="panel-heading" role="tab" id="report">
-                <h4 class="panel-title">
-                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#metadata" aria-expanded="true" aria-controls="collapseOne">
-                    Metadata
-                    </a>
-                </h4>
+                            <p>File Name: {{ object.file_name }}</p>
+                            <p>File Type: {{ object.file_type }}</p>
+                            <!--<p>Guessed Type: {{ object.guessed_type[0] }}</p>-->
+                            <!--<p>Path to file: {{ object.abs_path }}</p>-->
+                            <p>Report Generated: {{ object.time_stamp }}</p>
+                    </div>
+                </div>
             </div>
-            <div class="panel-collapse collapse in" id="metadata" role="tabpanel">
-                <div class="panel-body">
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="heading2">
+                    <h4 class="panel-title">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#statistics" aria-expanded="false" aria-controls="collapseTwo">
+                            Statistics
+                        </a>
+                    </h4>
+                </div>
+                <div class="panel-collapse collapse" id="statistics" role="tabpanel">
+                    <div class="panel-body">
+                        <p>Page Count: {{ object.page_length }} (assuming 250 words per page)</p>
+                        <p>Paper Sides: {{ object.paper_count }}
+                            <!--<p>Word Count: {{ object.word_count }}</p>-->
+                        <p>Sentence Count: {{ object.sentence_count }}</p>
+                        <p>Average letters per word: {{ object.avg_letter_per_word }}</p>
+                        <p>Average sentence length: {{ object.avg_sentence_length }}</p>
+                        <!--<p>Average sentence per word(?): {{ object.avg_sentence_per_word }}</p>-->
+                        <p>Sentences > 20 words: {{ object.long_sentences }} (<em>of {{ object.sentence_count }} sentences</em>)</p>
+                        <p>Average syllables per word: {{ object.avg_syllables_per_word }}</p>
+                        <p>Polysyllables (words with 3 or more syllables): {{ object.polysyllabcount }}</p>
+                        <p>"Difficult words": {{ object.difficult_words }}</p>
+                        <p>Lexicon count (word count): {{ object.lexicon_count }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="heading3">
+                    <h4 class="panel-title">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#tone" aria-expanded="false" aria-controls="collapseThree">
+                            Tone
+                        </a>
+                    </h4>
+                </div>
+                <div class="panel-collapse collapse" id="tone" role="tabpanel">
+                    <div class="panel-body">
+                        <p>Polarity (locally determined; ranges from -1.0 to 1.0): {{ object.polarity }}</p>
+                        {% if object.api_sentiment %}
+                        <p>Sentiment (remote call: pos, neutral, or neg): {{ object.api_sentiment }}</p>
+                        {% endif %}
+                        <p>Subjectivity (ranges 0.0 through 1.0, where 1.0 is very subjective): {{ object.subjectivity }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="heading4">
+                    <h4 class="panel-title">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#intro" aria-expanded="false" aria-controls="collapseFour">
+                            Introduction and Conclusion
+                        </a>
+                    </h4>
+                </div>
+                <div class="panel-collapse collapse" id="intro" role="tabpanel">
+                    <div class="panel-body">
+                        <p>Introductory Sentence: <em>{{ object.intro }}</em>
+                        <p>Concluding Sentence: <em>{{ object.exit }}</em>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="heading5">
+                    <h4 class="panel-title">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#lard" aria-expanded="false" aria-controls="collapseFive">
+                            Lard Analysis
+                        </a>
+                    </h4>
+                </div>
+                <div class="panel-collapse collapse" id="lard" role="tabpanel">
+                    <div class="panel-body">
+                        <p>Occurences of the verb <em>to be</em>: {{ object.be_verb_count}} (over {{ object.sentence_count }} sentences )</p>
+                        <p>All other aux verbs:</p>
 
-                        <p>File Name: {{ object.file_name }}</p>
-                        <p>File Type: {{ object.file_type }}</p>
-                        <!--<p>Guessed Type: {{ object.guessed_type[0] }}</p>-->
-                        <!--<p>Path to file: {{ object.abs_path }}</p>-->
-                        <p>Report Generated: {{ object.time_stamp }}</p>
-                </div>
-            </div>
-        </div>
-        <div class="panel panel-default">
-            <div class="panel-heading" role="tab" id="heading2">
-                <h4 class="panel-title">
-                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#statistics" aria-expanded="false" aria-controls="collapseTwo">
-                        Statistics
-                    </a>
-                </h4>
-            </div>
-            <div class="panel-collapse collapse" id="statistics" role="tabpanel">
-                <div class="panel-body">
-                    <p>Page Count: {{ object.page_length }} (assuming 250 words per page)</p>
-                    <p>Paper Sides: {{ object.paper_count }}
-                        <!--<p>Word Count: {{ object.word_count }}</p>-->
-                    <p>Sentence Count: {{ object.sentence_count }}</p>
-                    <p>Average letters per word: {{ object.avg_letter_per_word }}</p>
-                    <p>Average sentence length: {{ object.avg_sentence_length }}</p>
-                    <!--<p>Average sentence per word(?): {{ object.avg_sentence_per_word }}</p>-->
-                    <p>Sentences > 20 words: {{ object.long_sentences }} (<em>of {{ object.sentence_count }} sentences</em>)</p>
-                    <p>Average syllables per word: {{ object.avg_syllables_per_word }}</p>
-                    <p>Polysyllables (words with 3 or more syllables): {{ object.polysyllabcount }}</p>
-                    <p>"Difficult words": {{ object.difficult_words }}</p>
-                    <p>Lexicon count (word count): {{ object.lexicon_count }}</p>
-                </div>
-            </div>
-        </div>
-        <div class="panel panel-default">
-            <div class="panel-heading" role="tab" id="heading3">
-                <h4 class="panel-title">
-                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#tone" aria-expanded="false" aria-controls="collapseThree">
-                        Tone
-                    </a>
-                </h4>
-            </div>
-            <div class="panel-collapse collapse" id="tone" role="tabpanel">
-                <div class="panel-body">
-                    <p>Polarity (locally determined; ranges from -1.0 to 1.0): {{ object.polarity }}</p>
-                    {% if object.api_sentiment %}
-                    <p>Sentiment (remote call: pos, neutral, or neg): {{ object.api_sentiment }}</p>
-                    {% endif %}
-                    <p>Subjectivity (ranges 0.0 through 1.0, where 1.0 is very subjective): {{ object.subjectivity }}</p>
-                </div>
-            </div>
-        </div>
-        <div class="panel panel-default">
-            <div class="panel-heading" role="tab" id="heading4">
-                <h4 class="panel-title">
-                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#intro" aria-expanded="false" aria-controls="collapseFour">
-                        Introduction and Conclusion
-                    </a>
-                </h4>
-            </div>
-            <div class="panel-collapse collapse" id="intro" role="tabpanel">
-                <div class="panel-body">
-                    <p>Introductory Sentence: <em>{{ object.intro }}</em>
-                    <p>Concluding Sentence: <em>{{ object.exit }}</em>
-                </div>
-            </div>
-        </div>
-        <div class="panel panel-default">
-            <div class="panel-heading" role="tab" id="heading5">
-                <h4 class="panel-title">
-                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#lard" aria-expanded="false" aria-controls="collapseFive">
-                        Lard Analysis
-                    </a>
-                </h4>
-            </div>
-            <div class="panel-collapse collapse" id="lard" role="tabpanel">
-                <div class="panel-body">
-                    <p>Occurences of the verb <em>to be</em>: {{ object.be_verb_count}} (over {{ object.sentence_count }} sentences )</p>
-                    <p>All other aux verbs:</p>
-
-                    <ul>
-                        {% for modal in object.modal_dist %}
-                        <li>{{ modal }}</li>
-                        {% endfor %}
-                    </ul>
-                    <p>Weak verbs to sentences: {{ object.weak_verbs_to_sentences_round }} % </p>
-                    <p>Sentences with passive voice: {{ object.passive_sentence_count }}</p>
-                    <p>Percent passive sentences (rounded): {{ object.percent_passive_round }} %</p>
-                <!--<p>Percent passive sentences: {{ object.percent_passive }}</p>-->
-                    <p>Example passive sentence from {{ object.file_name }} (randomly selected): <em>{{ object.rand_passive }}</em></p>
-                    <p>Example <em>to be</em> usage from {{ object.file_name }}
-                   (randomly selected): <em>{{ object.rand_weak_sentence }}</em></p>
-                   <p>Prepositions (or subordinating conjunctions!): {{ object.preposition_count }} (across {{ object.sentence_count }} sentences)</p>
-                </div>
-            </div>
-        </div>
-        <div class="panel panel-default">
-            <div class="panel-heading" role="tab" id="heading5">
-                <h4 class="panel-title">
-                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#readability" aria-expanded="false" aria-controls="collapseSix">
-                        Readability Analysis
-                    </a>
-                </h4>
-            </div>
-            <div class="panel-collapse collapse" id="readability" role="tabpanel">
-                <div class="panel-body">
-                    <p>Flesch Reading Ease Score: {{ object.readability_flesch_re }} ({{object.flesch_re_desc_str}})</p>
-                    <p>Flesch-Kincaid Reading Grade: {{
-                        object.readability_flesch_kincaid_grade }}</p>
-                    <p>Coleman Liau Index: {{ object.readability_coleman_liau_index }}</p>
-                    <p>SMOG Index: {{ object.readability_smog_index}}</p>
-                    <p>Dall Chall: {{ object.readability_dale_chall }}</p>
-                    <p>Linsear Write: {{ object.readability_linser_write }}</p>
-                    <p>Automated Readability Index: {{ object.readability_ari }}</p>
-                    <p>Readability (Standard): {{ object.readability_standard }}</p>
-                </div>
-            </div>
-        </div>
-        <div class="panel panel-default">
-            <div class="panel-heading" role="tab" id="heading5">
-                <h4 class="panel-title">
-                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#pos" aria-expanded="false" aria-controls="collapseSeven">
-                        Parts of Speech (Selection)
-                    </a>
-                </h4>
-            </div>
-            <div class="panel-collapse collapse" id="pos" role="tabpanel">
-                <div class="panel-body">
-                    <p>Adverb count: {{ object.adverb_count }} of {{ object.lexicon_count }} words</p>
-                    <p>Adjective count: {{ object.adjective_count }} of {{ object.lexicon_count }} words</p>
-                    <p>Coordinating Conjunctions: {{ object.cc_count }} out of {{ object.lexicon_count }} words (or over {{ object.sentence_count }} sentences)</p>
-                </div>
-            </div>
-        </div>
-        <div class="panel panel-default">
-            <div class="panel-heading" role="tab" id="heading5">
-                <h4 class="panel-title">
-                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#punctuation" aria-expanded="false" aria-controls="collapseSeven">
-                        Punctuation
-                    </a>
-                </h4>
-            </div>
-            <div class="panel-collapse collapse" id="punctuation" role="tabpanel">
-                <div class="panel-body">
-                    <p>Comma Count: at least {{ object.commas }} commas over {{ object.sentence_count }} sentences</p>
-
-                    {% if object.semicolons %}
-                    <p>Semicolons: {{ object.semicolons }} semicolons over {{ object.sentence_count }} sentences.</p>
-                    {% endif %}
-                    <p>Example comma usage: <em>{{ object.comma_example }}</em></p>
-                    {% if object.semicolon_example %}
-                    <p>Example semicolon usage: <em>{{ object.semicolon_example }}</em></p>
-                    {% endif %}
-                    {% if object.question_marks %}
-                    <p>Question marks: {{ object.question_marks }}</p>
-                    <p>Example question from text: <em>{{ object.question_example }}</em></p>
-                    {% endif %}
-
-                    {% if object.bangs %}
-                    <p>Exclamation Points: {{ object.bangs }}</p>
-                    <p>Example Excamation: {{ object.exclamation_example }}</p>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-        <div class="panel panel-default">
-            <div class="panel-heading" role="tab" id="heading5">
-                <h4 class="panel-title">
-                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#cliches" aria-expanded="false" aria-controls="collapseEight">
-                        Cliched Phrases
-                    </a>
-                </h4>
-            </div>
-            <div class="panel-collapse collapse" id="cliches" role="tabpanel">
-                <div class="panel-body">
-                    {% if object.cliche_count %}
-                            <p>Cliché Count: {{ object.cliche_count }}</p>
-                            <ol>
-                                {% for cliche in object.cliches_in_text %}
-                                <li>{{ cliche }}</li>
-                                {% endfor %}
-                            </ol>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-        <div class="panel panel-default">
-            <div class="panel-heading" role="tab" id="heading5">
-                <h4 class="panel-title">
-                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#unrecognized" aria-expanded="false" aria-controls="collapseNine">
-                        Unrecognized Words
-                    </a>
-                </h4>
-            </div>
-            <div class="panel-collapse collapse" id="unrecognized" role="tabpanel">
-                <div class="panel-body">
-                    {% if object.unrecognized_words %}
-
-                        <p><strong>Note:</strong> This is an opportunity to see if the text was corrupted.</p>
                         <ul>
-                            {% for word in object.unrecognized_words %}
-                                <li>{{ word }}</li>
+                            {% for modal in object.modal_dist %}
+                            <li>{{ modal }}</li>
                             {% endfor %}
                         </ul>
-
-
-                    {% endif %}
+                        <p>Weak verbs to sentences: {{ object.weak_verbs_to_sentences_round }} % </p>
+                        <p>Sentences with passive voice: {{ object.passive_sentence_count }}</p>
+                        <p>Percent passive sentences (rounded): {{ object.percent_passive_round }} %</p>
+                    <!--<p>Percent passive sentences: {{ object.percent_passive }}</p>-->
+                        <p>Example passive sentence from {{ object.file_name }} (randomly selected): <em>{{ object.rand_passive }}</em></p>
+                        <p>Example <em>to be</em> usage from {{ object.file_name }}
+                       (randomly selected): <em>{{ object.rand_weak_sentence }}</em></p>
+                       <p>Prepositions (or subordinating conjunctions!): {{ object.preposition_count }} (across {{ object.sentence_count }} sentences)</p>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="panel panel-default">
-            <div class="panel-heading" role="tab" id="heading6">
-                <h4 class="panel-title">
-                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#proselint" aria-expanded="false" aria-controls="collapseTen">
-                        Concrete Suggestions (Prescriptive)
-                    </a>
-                </h4>
-            </div>
-            <div class="panel-collapse collapse" id="proselint" role="tabpanel">
-                <div class="panel-body">
-                    <p>Please ignore quotation-mark style suggestions.</p>
-                    <ol>
-                    {% for suggestion in object.lint_suggestions %}
-                    <li>{{ suggestion[1] }}</li>
-                    {% endfor %}
-                    </ol>
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="heading5">
+                    <h4 class="panel-title">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#readability" aria-expanded="false" aria-controls="collapseSix">
+                            Readability Analysis
+                        </a>
+                    </h4>
+                </div>
+                <div class="panel-collapse collapse" id="readability" role="tabpanel">
+                    <div class="panel-body">
+                        <p>Flesch Reading Ease Score: {{ object.readability_flesch_re }} ({{object.flesch_re_desc_str}})</p>
+                        <p>Flesch-Kincaid Reading Grade: {{
+                            object.readability_flesch_kincaid_grade }}</p>
+                        <p>Coleman Liau Index: {{ object.readability_coleman_liau_index }}</p>
+                        <p>SMOG Index: {{ object.readability_smog_index}}</p>
+                        <p>Dall Chall: {{ object.readability_dale_chall }}</p>
+                        <p>Linsear Write: {{ object.readability_linser_write }}</p>
+                        <p>Automated Readability Index: {{ object.readability_ari }}</p>
+                        <p>Readability (Standard): {{ object.readability_standard }}</p>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="panel panel-default">
-            <div class="panel-heading" role="tab" id="heading7">
-                <h4 class="panel-title">
-                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#tags" aria-expanded="false" aria-controls="collapseEleven">
-                        Suggested Content Tags (Noun Phrases)
-                    </a>
-                </h4>
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="heading5">
+                    <h4 class="panel-title">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#pos" aria-expanded="false" aria-controls="collapseSeven">
+                            Parts of Speech (Selection)
+                        </a>
+                    </h4>
+                </div>
+                <div class="panel-collapse collapse" id="pos" role="tabpanel">
+                    <div class="panel-body">
+                        <p>Adverb count: {{ object.adverb_count }} of {{ object.lexicon_count }} words</p>
+                        <p>Adjective count: {{ object.adjective_count }} of {{ object.lexicon_count }} words</p>
+                        <p>Coordinating Conjunctions: {{ object.cc_count }} out of {{ object.lexicon_count }} words (or over {{ object.sentence_count }} sentences)</p>
+                    </div>
+                </div>
             </div>
-            <div class="panel-collapse collapse" id="tags" role="tabpanel">
-                <div class="panel-body">
-                    {% if object.tags %}
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="heading5">
+                    <h4 class="panel-title">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#punctuation" aria-expanded="false" aria-controls="collapseSeven">
+                            Punctuation
+                        </a>
+                    </h4>
+                </div>
+                <div class="panel-collapse collapse" id="punctuation" role="tabpanel">
+                    <div class="panel-body">
+                        <p>Comma Count: at least {{ object.commas }} commas over {{ object.sentence_count }} sentences</p>
+
+                        {% if object.semicolons %}
+                        <p>Semicolons: {{ object.semicolons }} semicolons over {{ object.sentence_count }} sentences.</p>
+                        {% endif %}
+                        <p>Example comma usage: <em>{{ object.comma_example }}</em></p>
+                        {% if object.semicolon_example %}
+                        <p>Example semicolon usage: <em>{{ object.semicolon_example }}</em></p>
+                        {% endif %}
+                        {% if object.question_marks %}
+                        <p>Question marks: {{ object.question_marks }}</p>
+                        <p>Example question from text: <em>{{ object.question_example }}</em></p>
+                        {% endif %}
+
+                        {% if object.bangs %}
+                        <p>Exclamation Points: {{ object.bangs }}</p>
+                        <p>Example Excamation: {{ object.exclamation_example }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="heading5">
+                    <h4 class="panel-title">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#cliches" aria-expanded="false" aria-controls="collapseEight">
+                            Cliched Phrases
+                        </a>
+                    </h4>
+                </div>
+                <div class="panel-collapse collapse" id="cliches" role="tabpanel">
+                    <div class="panel-body">
+                        {% if object.cliche_count %}
+                                <p>Cliché Count: {{ object.cliche_count }}</p>
+                                <ol>
+                                    {% for cliche in object.cliches_in_text %}
+                                    <li>{{ cliche }}</li>
+                                    {% endfor %}
+                                </ol>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="heading5">
+                    <h4 class="panel-title">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#unrecognized" aria-expanded="false" aria-controls="collapseNine">
+                            Unrecognized Words
+                        </a>
+                    </h4>
+                </div>
+                <div class="panel-collapse collapse" id="unrecognized" role="tabpanel">
+                    <div class="panel-body">
+                        {% if object.unrecognized_words %}
+
+                            <p><strong>Note:</strong> This is an opportunity to see if the text was corrupted.</p>
                             <ul>
-                                {% for tag in object.tags %}
-                                <li>{{ tag }}</li>
+                                {% for word in object.unrecognized_words %}
+                                    <li>{{ word }}</li>
                                 {% endfor %}
                             </ul>
-                    {% endif %}
+
+
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="heading6">
+                    <h4 class="panel-title">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#proselint" aria-expanded="false" aria-controls="collapseTen">
+                            Concrete Suggestions (Prescriptive)
+                        </a>
+                    </h4>
+                </div>
+                <div class="panel-collapse collapse" id="proselint" role="tabpanel">
+                    <div class="panel-body">
+                        <p>Please ignore quotation-mark style suggestions.</p>
+                        <ol>
+                        {% for suggestion in object.lint_suggestions %}
+                        <li>{{ suggestion[1] }}</li>
+                        {% endfor %}
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="heading7">
+                    <h4 class="panel-title">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#tags" aria-expanded="false" aria-controls="collapseEleven">
+                            Suggested Content Tags (Noun Phrases)
+                        </a>
+                    </h4>
+                </div>
+                <div class="panel-collapse collapse" id="tags" role="tabpanel">
+                    <div class="panel-body">
+                        {% if object.tags %}
+                                <ul>
+                                    {% for tag in object.tags %}
+                                    <li>{{ tag }}</li>
+                                    {% endfor %}
+                                </ul>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="heading8">
+                    <h4 class="panel-title">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#fulltext" aria-expanded="false" aria-controls="collapseTwelve">
+                            Full Text
+                        </a>
+                    </h4>
+                </div>
+                <div class="panel-collapse collapse" id="fulltext" role="tabpanel">
+                    <div class="panel-body">
+                        <div class="col-md-12">
+                          <div style="white-space: pre-wrap; line-height: 150%;">{{ object.raw_text }}</div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="panel panel-default">
-            <div class="panel-heading" role="tab" id="heading8">
-                <h4 class="panel-title">
-                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#fulltext" aria-expanded="false" aria-controls="collapseTwelve">
-                        Full Text
-                    </a>
-                </h4>
-            </div>
-            <div class="panel-collapse collapse" id="fulltext" role="tabpanel">
-                <div class="panel-body">
-                    <div class="col-md-12">
-                      <div style="white-space: pre-wrap; line-height: 150%;">{{ object.raw_text }}</div>
-                </div>
-            </div>
         </div>
     </div>
 
-</div><!--End hidden to print-->
-<!-- KEEP FOR NOW -->
 
-<div class="visible-print">
+
+<div class="container">
+
+
+    <div class="visible-print">
     <div>
         <h2>Metadata</h2>
             <p>File Name: {{ object.file_name }}</p>

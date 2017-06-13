@@ -10,7 +10,7 @@
             <p>Click "Review Full Text" at any time to review the source composition.</p>
             <div class="btn-group">
                 <!--<a href="/content" class="btn btn-primary" target="_blank">Review Full Text</a>-->
-                <a href="/clear" class="btn btn-warning">Purge Data</a>
+                <a href="/clear" class="btn btn-danger">Purge Data</a>
             </div>
         </div>
     </div>
@@ -270,11 +270,33 @@
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="heading7">
                     <h4 class="panel-title">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#concepts" aria-expanded="false" aria-controls="collapseEleven">
+                            Concepts (from external source)
+                        </a>
+                    </h4>
+                </div>
+
+                <div class="panel-collapse collapse" id="concepts" role="tabpanel">
+                    <div class="panel-body">
+                        {% if object.concepts %}
+                                <ul>
+                                    {% for concept in object.concepts %}
+                                    <li>{{ concept }}</li>
+                                    {% endfor %}
+                                </ul>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="heading7">
+                    <h4 class="panel-title">
                         <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#tags" aria-expanded="false" aria-controls="collapseEleven">
                             Suggested Content Tags (Noun Phrases)
                         </a>
                     </h4>
                 </div>
+
                 <div class="panel-collapse collapse" id="tags" role="tabpanel">
                     <div class="panel-body">
                         {% if object.tags %}
@@ -457,6 +479,21 @@
     </div>
       {% endif %}
     {% endif %}
+
+    {% if object.concepts %}
+        <div>
+            <h2>Concepts</h2>
+            <p><em>From external API</em></p>
+            <ul>
+                {% for category in object.concepts %}
+                    <li>{{ category }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+
+
 
     {% if object.tags %}
     <div>

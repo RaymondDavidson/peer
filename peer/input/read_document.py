@@ -34,6 +34,7 @@ from cliches import cliches
 
 from sentiment import sentiment
 from textblob import TextBlob
+from textgain.textgain import textgain
 
 # from mimetypes import MimeTypes
 
@@ -307,6 +308,9 @@ class Sample:
             self.exit = self.sentence_tokens[-1]
             # tags
             self.tags = self.tag_phrases(TextBlob(self.raw_text))
+            #textgain
+            self.concepts = textgain('concepts', self.raw_text)
+
     def flesch_re_desc(self, score):
         if score < 30:
             return "Very Confusing"

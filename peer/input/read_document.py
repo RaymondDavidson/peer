@@ -306,8 +306,8 @@ class Sample:
             self.subjectivity = self.blob.sentiment.subjectivity
             self.intro = self.sentence_tokens[0]
             self.exit = self.sentence_tokens[-1]
-            # tags
-            self.tags = self.tag_phrases(TextBlob(self.raw_text))
+            # noun phrases
+            self.phrases = self.tag_phrases(TextBlob(self.raw_text))
             #textgain
             self.concepts = textgain('concepts', self.raw_text)
 

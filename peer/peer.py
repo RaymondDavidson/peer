@@ -56,12 +56,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 nav.init_app(app)
 
-@app.after_request
-def add_header(response):
-    response.headers['X-UA-Compatible'] = 'IE=Edge,chrome=1'
-    if ('Cache-Control' not in response.headers):
-        response.headers['Cache-Control'] = 'public, max-age=600'
-    return response
+
 
 
 def allowed_file(filename):
@@ -201,8 +196,7 @@ def feedback():
 
     On the way, remove the uploaded doc from the defined storage location
     """
-    response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
-    response.headers['Pragma'] = 'no-cache'
+
     try:
         os.remove(Doc.abs_path)
         print "Removed tmp file %s." % Doc.abs_path

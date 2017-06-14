@@ -19,7 +19,7 @@
 
 
 
-<div class="container">
+<div class="container visible-print">
     <h1>Report: <em>{{ object.file_name }} ({{ object.time_stamp }})</em></h1>
 </div>
 
@@ -291,17 +291,17 @@
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="heading7">
                     <h4 class="panel-title">
-                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#tags" aria-expanded="false" aria-controls="collapseEleven">
-                            Suggested Content Tags (Noun Phrases)
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#phrases" aria-expanded="false" aria-controls="collapseEleven">
+                            Noun Phrases
                         </a>
                     </h4>
                 </div>
 
-                <div class="panel-collapse collapse" id="tags" role="tabpanel">
+                <div class="panel-collapse collapse" id="phrases" role="tabpanel">
                     <div class="panel-body">
-                        {% if object.tags %}
+                        {% if object.phrases %}
                                 <ul>
-                                    {% for tag in object.tags %}
+                                    {% for tag in object.phrases %}
                                     <li>{{ tag }}</li>
                                     {% endfor %}
                                 </ul>
@@ -495,11 +495,11 @@
 
 
 
-    {% if object.tags %}
+    {% if object.phrases %}
     <div>
-        <h2>Tags</h2>
+        <h2>Noun Phrases</h2>
             <ul>
-                {% for tag in object.tags %}
+                {% for tag in object.phrases %}
                 <li>{{ tag }}</li>
                 {% endfor %}
             </ul>

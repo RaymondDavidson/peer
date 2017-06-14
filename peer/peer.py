@@ -194,6 +194,7 @@ def feedback():
 
     On the way, remove the uploaded doc from the defined storage location
     """
+    
     try:
         os.remove(Doc.abs_path)
         print "Removed tmp file %s." % Doc.abs_path

@@ -252,7 +252,7 @@
                 <div class="panel-heading" role="tab" id="heading6">
                     <h4 class="panel-title">
                         <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#proselint" aria-expanded="false" aria-controls="collapseTen">
-                            Concrete Suggestions (Prescriptive)
+                            Concrete Style (Prescriptive)
                         </a>
                     </h4>
                 </div>
@@ -262,6 +262,25 @@
                         <ol>
                         {% for suggestion in object.lint_suggestions %}
                         <li>{{ suggestion[1] }}</li>
+                        {% endfor %}
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="heading6">
+                    <h4 class="panel-title">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#grammar" aria-expanded="false" aria-controls="collapseTen">
+                            Grammar and Spelling Suggestions (Prescriptive)
+                        </a>
+                    </h4>
+                </div>
+                <div class="panel-collapse collapse" id="grammar" role="tabpanel">
+                    <div class="panel-body">
+                        <p>Potential problems: {{ object.grammar_error_count }}
+                        <ol>
+                        {% for check in object.grammar_feedback %}
+                        <li>{{ check }}</li>
                         {% endfor %}
                         </ol>
                     </div>
@@ -464,6 +483,17 @@
     </div>
     {% endif %}
 
+    {% if object.grammar_error_count %}
+    <div>
+        <h2>Grammar Check (Prescriptive)</h2>
+        <p>Potential Grammar Errors: {{ object.grammar_error_count }}
+        <ol>
+            {% for check in object.grammar_feedback %}
+            <li>{{ check }}</li>
+            {% endfor %}
+        </ol>
+    </div>
+    {% endif %}
 
 
     {% if object.unrecognized_words %}

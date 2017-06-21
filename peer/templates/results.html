@@ -203,6 +203,7 @@
                     </div>
                 </div>
             </div>
+            {% if object.cliche_count %}
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="heading5">
                     <h4 class="panel-title">
@@ -213,17 +214,19 @@
                 </div>
                 <div class="panel-collapse collapse" id="cliches" role="tabpanel">
                     <div class="panel-body">
-                        {% if object.cliche_count %}
+
                                 <p>Cliché Count: {{ object.cliche_count }}</p>
                                 <ol>
                                     {% for cliche in object.cliches_in_text %}
                                     <li>{{ cliche }}</li>
                                     {% endfor %}
                                 </ol>
-                        {% endif %}
+
                     </div>
                 </div>
             </div>
+            {% endif %}
+            {% if object.unrecognized_words %}
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="heading5">
                     <h4 class="panel-title">
@@ -234,7 +237,7 @@
                 </div>
                 <div class="panel-collapse collapse" id="unrecognized" role="tabpanel">
                     <div class="panel-body">
-                        {% if object.unrecognized_words %}
+
 
                             <p><strong>Note:</strong> This is an opportunity to see if the text was corrupted.</p>
                             <ul>
@@ -244,10 +247,12 @@
                             </ul>
 
 
-                        {% endif %}
+
                     </div>
                 </div>
             </div>
+            {% endif %}
+
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="heading6">
                     <h4 class="panel-title">
@@ -267,6 +272,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="heading6">
                     <h4 class="panel-title">
@@ -280,12 +286,13 @@
                         <p>Potential problems: {{ object.grammar_error_count }}
                         <ol>
                         {% for check in object.grammar_feedback %}
-                        <li>{{ check }}</li>
+                        <pre>{{ check }}</pre>
                         {% endfor %}
                         </ol>
                     </div>
                 </div>
             </div>
+            {% if object.concepts %}
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="heading7">
                     <h4 class="panel-title">
@@ -307,6 +314,7 @@
                     </div>
                 </div>
             </div>
+            {% endif %}
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="heading7">
                     <h4 class="panel-title">
@@ -348,7 +356,7 @@
     </div>
 
 
-
+<!-- Print Media Report -->
 <div class="container">
 
 

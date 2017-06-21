@@ -50,7 +50,9 @@ app = Flask(__name__)
 app.secret_key = 'riverrun, past Eve and Adam’s, from swerve of shore to \
     bend of bay, brings us by a commodius vicus of recirculation back to \
     Howth Castle and Environs.'
-app.config['SESSION_TYPE'] = 'filesystem'
+#app.config['SESSION_TYPE'] = 'filesystem'
+app.config['SESSION_TYPE'] = 'null'
+app.config['SESSION_PERMANENT'] = 'False'
 Bootstrap(app)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -94,6 +96,7 @@ def clearSession():
         pass
     return redirect(url_for('intro'))
 
+
 def deleteInstance(instance):
     """
     Delete the Sample instance.
@@ -107,9 +110,15 @@ def deleteInstance(instance):
         print "Could not delete instance 'Doc'. I may not have existed."
         pass
 
+
 @app.route('/')
 def intro():
     """ Flask route to index with explanatory content. """
+    try:
+        session.clear()
+    except:
+        print "couldn't clear session"
+        pass
     return render_template('index.html')
 
 @app.route('/about')

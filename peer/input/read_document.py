@@ -401,7 +401,7 @@ class Sample:
 
     def word_frequency(self, words):
         """
-        List 50 most common words in tokenized list.
+        List 20 most common words in tokenized list.
 
         memo: words = [word for word in words if not word.isnumeric()].
 
@@ -413,7 +413,7 @@ class Sample:
         """
         words = [word.lower() for word in words]
         self.word_dist = FreqDist(words)
-        return self.word_dist.most_common(50)
+        return self.word_dist.most_common(20)
 
     def word_tokenize_no_punct(self, text):
         """

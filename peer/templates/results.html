@@ -263,12 +263,14 @@
                 </div>
                 <div class="panel-collapse collapse" id="proselint" role="tabpanel">
                     <div class="panel-body">
+                        {% if object.lint_suggestions %}
                         <p>Please ignore quotation-mark style suggestions.</p>
                         <ol>
                         {% for suggestion in object.lint_suggestions %}
                         <li>{{ suggestion[1] }}</li>
                         {% endfor %}
                         </ol>
+                        {% endif %}
                     </div>
                 </div>
             </div>

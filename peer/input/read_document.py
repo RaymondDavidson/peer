@@ -314,6 +314,11 @@ class Sample:
             self.check = grammar(self.raw_text)
             self.grammar_error_count = self.check[0]
             self.grammar_feedback = self.check[1]
+            # pov
+            self.first_person = self.pronouns(['I', 'me', 'mine', 'myself', 'I\'ve', 'I\'m'], self.raw_text)
+            self.first_person_count = len(self.first_person)
+            self.second_person = self.pronouns(['you', 'you\'re', 'yours', 'yourself', 'you\'ve'], self.raw_text)
+            self.second_person_count = len(self.second_person)
     def flesch_re_desc(self, score):
         if score < 30:
             return "Very Confusing"
@@ -623,3 +628,10 @@ class Sample:
             if phrase not in noun_phrases:
                 noun_phrases.append(phrase)
         return noun_phrases
+
+    def pronouns(self, list, words):
+        pronouns = []
+        for pronoun in list:
+            if pronoun in words:
+                pronouns.append(pronoun)
+        return pronouns

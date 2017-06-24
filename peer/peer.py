@@ -4,7 +4,7 @@ import os
 
 from werkzeug.utils import secure_filename
 
-from flask import Flask, flash, redirect, render_template, request, url_for, session
+from flask import Flask, flash, redirect, render_template, request, url_for, session, make_response
 from flask_bootstrap import Bootstrap
 from flask_nav import Nav
 from flask_nav.elements import *
@@ -94,6 +94,7 @@ def clearSession():
     except:
         print "Attempt to clear session failed"
         pass
+
     return redirect(url_for('intro'))
 
 
@@ -109,8 +110,6 @@ def deleteInstance(instance):
     except:
         print "Could not delete instance 'Doc'. I may not have existed."
         pass
-
-
 @app.route('/')
 def intro():
     """ Flask route to index with explanatory content. """
@@ -195,11 +194,11 @@ def upload_file():
             global Doc
             #time.sleep(3) # no effect on intermittent instance creation
             Doc = read_document.Sample(UPLOAD_FOLDER + "/" + filename)
-            return redirect(url_for('feedback'))
+            return redirect(url_for('feedback', timestamp=Doc.time_stamp))
     return render_template('upload.html')
 
-@app.route('/feedback')
-def feedback():
+@app.route('/feedback/<timestamp>', methods=["GET"])
+def feedback(timestamp):
     """
     Route to analysis results (of uploaded file)
 
@@ -213,8 +212,9 @@ def feedback():
         print "Failed to remove tmp file %s. Please check owner and \
            permissions" % Doc.abs_path
         pass
+    if Doc.raw_text:
+        print "Doc still exists"
     return render_template('results.html', object=Doc)
-
 
 @app.route('/content')
 def content():

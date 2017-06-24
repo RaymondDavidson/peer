@@ -105,6 +105,40 @@
                     </div>
                 </div>
             </div>
+            <!--voice -->
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="heading4">
+                    <h4 class="panel-title">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#pronouns" aria-expanded="false" aria-controls="collapseFour">
+                            Voice / Perspective
+                        </a>
+                    </h4>
+                </div>
+                <div class="panel-collapse collapse" id="pronouns" role="tabpanel">
+                    <div class="panel-body">
+                        {% if object.first_person_count %}
+
+                        <p>First Person Pronoun Count: <em>{{ object.first_person_count }}</em></p>
+                        <p>First Person Pronouns:</p>
+                        <ul>
+                            {% for pronoun in object.first_person %}
+                            <li>{{ pronoun }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                        {% if object.second_person_count %}
+                        <p>Second-Person Pronoun Count: <em>{{ object.second_person_count}}</em></p>
+                        <p>Second-Person Pronouns:</p>
+                         <ul>
+                            {% for pronoun in object.second_person %}
+                             <li>{{ pronoun }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <!-- Lard -->
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="heading5">
                     <h4 class="panel-title">
@@ -396,8 +430,27 @@
            <p>Subjectivity (ranges 0.0 through 1.0, where 1.0 is very subjective): {{ object.subjectivity }}</p>
     </div>
 
-
-
+    <div>
+        <h2>Voice/Point of View</h2>
+        <p>First-Person Pronoun Count: {{ object.first_person_count }}</p>
+        {% if object.first_person_count %}
+            <p>First-Person Pronouns:</p>
+                <ul>
+                    {% for pronoun in object.first_person %}
+                    <li>{{ pronoun }}</li>
+                    {% endfor %}
+                </ul>
+        {% endif %}
+        <p>Second-Person Pronoun Count: {{ object.second_person_count }}</p>
+        {% if object.second_person_count %}
+            <p>Second-Person Pronouns:</p>
+                <ul>
+                    {% for pronoun in object.second_person %}
+                    <li>{{ pronoun }}</li>
+                    {% endfor %}
+                </ul>
+        {% endif %}
+    </div>
     <div>
         <h2>Introduction and Conclusion</h2>
             <p>Introductory Sentence: <em>{{ object.intro }}</em>
@@ -497,11 +550,16 @@
     <div>
         <h2>Grammar Check (Prescriptive)</h2>
         <p>Potential Grammar Errors: {{ object.grammar_error_count }}
-        <ol>
-            {% for check in object.grammar_feedback %}
-            <li>{{ check }}</li>
-            {% endfor %}
-        </ol>
+            <div class="row">
+                <div class="col-md-12">
+                  <div style="white-space: pre-wrap; line-height: 150%;">
+                      {% for check in object.grammar_feedback %}
+                        {{ check }}
+                      {% endfor %}
+                  </div>
+              </div>
+          </div>
+
     </div>
     {% endif %}
 

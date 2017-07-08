@@ -31,7 +31,7 @@ ALLOWED_EXTENSIONS = set(['txt', 'docx', 'odt'])
 topbar = Navbar('',
     Text('Extra Eyes'),
     View('About', 'about'),
-    View('Home', 'clearSession'),
+    View('Home', 'intro'),
     #View('Upload', 'upload_file'),
     #View('Paste Text', 'paste'),
     View('Usage', 'usage'),
@@ -58,7 +58,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 nav.init_app(app)
 
-
+_samples=[]
 
 
 def allowed_file(filename):
@@ -74,20 +74,29 @@ def allowed_file(filename):
     return '.' in filename and \
         filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+
 @app.route('/clear')
-def clearSession():
-    """
+def clearRawText():
+    del Doc.raw_text
+    del Doc.file_name
+    del Doc.intro
+    del Doc.exit
+    del Doc.passive_sentences
+    del Doc.comma_example
+    del Doc.cliche_list
+
+    return redirect(url_for('intro'))
+
+"""
+def clearSession(instance=Doc):
+    '''
     Stop intermittant breaking between upload and parsing, delivering instance.
 
     Still not clear if this is the remedy.
-    """
+    '''
 
-    try:
-        deleteInstance(Doc) # untested
-        print "Instance (Doc) deleted"
-    except:
-        print "Delete Doc failed."
-        pass
+
+
     try:
         session.clear()
         print "Session cleared"
@@ -95,29 +104,32 @@ def clearSession():
         print "Attempt to clear session failed"
         pass
 
-    return redirect(url_for('intro'))
 
-
-def deleteInstance(instance):
-    """
-    Delete the Sample instance.
-
-    Part of work to identify the cause of the inconsistent success creating
-    and displaying the results (instance).
-    """
     try:
+        deleteInstance(instance)
         del instance
     except:
-        print "Could not delete instance 'Doc'. I may not have existed."
         pass
+
+    if Doc:
+        print "The instance of Sample has not been properly destroyed."
+    else:
+        print "There is not Sample instance called 'Doc'"
+
+    return redirect(url_for('intro'))
+"""
+
+
 @app.route('/')
 def intro():
     """ Flask route to index with explanatory content. """
+    """
     try:
         session.clear()
     except:
         print "couldn't clear session"
         pass
+    """
     return render_template('index.html')
 
 @app.route('/about')
@@ -197,24 +209,59 @@ def upload_file():
             return redirect(url_for('feedback', timestamp=Doc.time_stamp))
     return render_template('upload.html')
 
-@app.route('/feedback/<timestamp>', methods=["GET"])
+@app.route('/feedback/<timestamp>', methods=['GET', 'POST'])
 def feedback(timestamp):
     """
     Route to analysis results (of uploaded file)
 
     On the way, remove the uploaded doc from the defined storage location
     """
-
     try:
-        os.remove(Doc.abs_path)
-        print "Removed tmp file %s." % Doc.abs_path
+        if Doc:
+            print "An instance of Sample exists."
     except:
-        print "Failed to remove tmp file %s. Please check owner and \
-           permissions" % Doc.abs_path
+        print("No instance.")
+    try:
+        if Doc.raw_text:
+            _samples.append(timestamp)
+            for sample in _samples:
+                print sample
+            try:
+                if os.path.isfile(Doc.abs_path):
+                    os.remove(Doc.abs_path)
+                if not os.path.isfile(Doc.abs_path):
+                    print "Destroyed tmp file %s." % Doc.abs_path
+            except:
+                print "Failed to remove tmp file %s. Please check owner and \
+                    permissions" % Doc.abs_path
+                pass
+            return render_template('results.html', object=Doc)
+    except:
+        return render_template('404.html')
+
+
+"""
+def deleteInstance(instance):
+    '''
+    Delete the Sample instance.
+
+    Part of work to identify the cause of the inconsistent success creating
+    and displaying the results (instance).
+    '''
+    try:
+        if instance:
+            del Doc
+        else:
+            print "There is not Sample instance called %" % instance
+    except:
+        if instance:
+            print "Could not delete instance %s. \
+                    It may not have existed." % instance
         pass
-    if Doc.raw_text:
-        print "Doc still exists"
-    return render_template('results.html', object=Doc)
+"""
+
+
+
 
 @app.route('/content')
 def content():
@@ -234,6 +281,11 @@ def usage():
 def handle_internal_server_error(e):
     """ Error handler that appears to be working """
     return render_template('internal.html'), 500
+
+
+@app.route('/404')
+def page_not_found():
+    return render_template('404.html')
 
 
 if __name__ == "__main__":

@@ -161,7 +161,7 @@ class Sample:
                     unidecode.unidecode_expect_nonascii(self.raw_text)
             else:
                 self.raw_text = textract.process(writing, encoding="ascii")
-                #self.raw_text = textract.process(writing)
+                #self.raw_text = unidecode.unidecode_expect_nonascii(self.raw_text)
         else:
             self.raw_text = unicode(writing)
             self.raw_text = unidecode.unidecode_expect_nonascii(self.raw_text)
@@ -635,3 +635,5 @@ class Sample:
             if pronoun in words:
                 pronouns.append(pronoun)
         return pronouns
+def __del__(self):
+    print("Instance of Class 'Sample' removed.")

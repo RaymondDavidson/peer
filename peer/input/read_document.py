@@ -36,6 +36,8 @@ from sentiment import sentiment
 from textblob import TextBlob
 from textgain.textgain import textgain
 from conventions.conventions import main as grammar
+from gensim.summarization import summarize
+
 # from mimetypes import MimeTypes
 
 
@@ -319,6 +321,7 @@ class Sample:
             self.first_person_count = len(self.first_person)
             self.second_person = self.pronouns(['you', 'you\'re', 'yours', 'yourself', 'you\'ve'], self.raw_text)
             self.second_person_count = len(self.second_person)
+            self.summary = summarize(self.raw_text)
     def flesch_re_desc(self, score):
         if score < 30:
             return "Very Confusing"
@@ -635,5 +638,7 @@ class Sample:
             if pronoun in words:
                 pronouns.append(pronoun)
         return pronouns
+
+
 def __del__(self):
     print("Instance of Class 'Sample' removed.")

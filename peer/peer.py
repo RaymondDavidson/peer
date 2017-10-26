@@ -77,13 +77,7 @@ def allowed_file(filename):
 
 @app.route('/clear')
 def clearRawText():
-    del Doc.raw_text
-    del Doc.file_name
-    del Doc.intro
-    del Doc.exit
-    del Doc.passive_sentences
-    del Doc.comma_example
-    del Doc.cliche_list
+    Doc = read_document.Sample("A certain change in the emphasis on having and being is apparent in the growing use of nouns and the decreasing use of verbs in Western languages in the past few centuries. A noun is the proper denotation for a thing. I can say that I have things: for instance that I have a table, a house, a book, a car. \n The proper denotation for an activity, a process, is a verb: for instance I am, I love, I desire, I hate, etc. Yet ever more frequently an activity is expressed in terms of having; that is, a noun is used instead of a verb. But to express an activity by to have in connection with a noun is an erroneous use of language, because processes and activities cannot be possessed; they can only be experienced.")
 
     return redirect(url_for('intro'))
 

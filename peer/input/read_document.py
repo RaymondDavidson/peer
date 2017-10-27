@@ -304,6 +304,8 @@ class Sample:
                 pass
             # education level (external - calls to textgain)
             self.edu = education_result(self.raw_text)
+            # guessed gender (external - calls to textgain)
+            self.gender = textgain('gender', self.raw_text)
             #TextBlob attributes
             self.blob = TextBlob(self.raw_text)
             self.polarity = self.blob.sentiment.polarity

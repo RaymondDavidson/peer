@@ -25,7 +25,7 @@ def textgain(call, raw_text, language='en'):
 
     r = requests.post(url, data={'q':raw_text, 'lang':language})
 
-    return json.loads(r.text).get(type)
+    return json.loads(r.text).get(call)
 """
 def gender(raw_text):
     g = textgain('gender', raw_text)

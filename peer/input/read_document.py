@@ -2,7 +2,7 @@
 """Creates document instance for analysis for semantics and lexical statistics.
 
 Opens and reads document to string raw_text. Relies on textract to handle
-.txt, .odt, .pdf, docx, and .doc.
+.txt, .odt, docx.
 """
 
 
@@ -27,7 +27,7 @@ from nltk.corpus import cmudict, stopwords
 from nltk.tokenize import RegexpTokenizer
 from proselint.tools import lint
 from textstat.textstat import textstat
-
+from external.education import education_result
 from enchant.checker import SpellChecker
 from passive.passive import main as passive
 from cliches import cliches
@@ -302,6 +302,8 @@ class Sample:
             except:
                 self.api_sentiment = ""
                 pass
+            # education level (external - calls to textgain)
+            self.edu = education_result(self.raw_text)
             #TextBlob attributes
             self.blob = TextBlob(self.raw_text)
             self.polarity = self.blob.sentiment.polarity

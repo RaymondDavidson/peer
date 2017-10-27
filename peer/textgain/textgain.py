@@ -5,23 +5,23 @@ Query textgain.com for age, gender, or education associated with prose.
 import requests
 import json
 
-def textgain(type, raw_text, language='en'):
-    if type == 'gender':
+def textgain(call, raw_text, language='en'):
+    if call == 'gender':
         url = 'https://api.textgain.com/1/gender'
-    elif type == 'edu':
+    elif call == 'edu':
         url = 'https://api.textgain.com/1/education'
-    elif type == 'personality':
+    elif call == 'personality':
         url = 'https://api.textgain.com/1/personality'
-    elif type == 'age':
+    elif call == 'age':
         url = 'https://api.textgain.com/1/age'
-    elif type == 'sentiment':
+    elif call == 'sentiment':
         url = 'https://api.textgain.com/1/sentiment'
-    elif type == 'genre':
+    elif call == 'genre':
         url = 'https://api.textgain.com/1/genre'
-    elif type == 'concepts':
+    elif call == 'concepts':
         url = 'https://api.textgain.com/1/concepts'
     else:
-        return "Type not specified"
+        return "Call not specified"
 
     r = requests.post(url, data={'q':raw_text, 'lang':language})
 
@@ -36,8 +36,8 @@ def age(raw_text):
     return json.loads(g.text).get('age')
 
 def education(raw_text):
-    g = textgain('edu', raw_text)
-    return json.loads(g.text).get('education')
+    g = textgain('education', raw_text)
+    return json.loads(g.raw_text).get('education')
 
 def personality(raw_text):
     g = textgain('personality', raw_text)

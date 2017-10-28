@@ -31,6 +31,8 @@ from external.education import education_result
 from enchant.checker import SpellChecker
 from passive.passive import main as passive
 from cliches import cliches
+from external.aylien import auth as aylien_auth
+
 
 from sentiment import sentiment
 from textblob import TextBlob
@@ -304,8 +306,23 @@ class Sample:
                 pass
             # education level (external - calls to textgain)
             self.edu = education_result(self.raw_text)
+            # age level (external - call to textgain)
+            self.age = textgain('age', self.raw_text, language='en')
             # guessed gender (external - calls to textgain)
             self.gender = textgain('gender', self.raw_text)
+            #genre (external - calls to textgain)
+            self.genre = textgain('genre', self.raw_text)
+            #personality (external call to textgain)
+            self.personality = textgain('personality', self.raw_text)
+            if self.personality == 'E':
+                self.personality = 'Extrovert'
+            elif self.personality == u'I':
+                self.personality = 'Introvert'
+            else:
+                pass
+            self.aylien_client = aylien_auth()
+            self.summary_aylien = self.aylien_client.Summarize({'text': self.raw_text, 'title': self.file_name, 'sentence_number':5})
+            self.tags_aylien = self.aylien_client.Hashtags({'text': self.raw_text})
             #TextBlob attributes
             self.blob = TextBlob(self.raw_text)
             self.polarity = self.blob.sentiment.polarity

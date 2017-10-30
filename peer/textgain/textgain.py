@@ -2,8 +2,11 @@
 Query textgain.com for age, gender, or education associated with prose.
 """
 
-import requests
+
 import json
+
+import requests
+
 
 def textgain(call, raw_text, language='en'):
     if call == 'gender':
@@ -23,9 +26,11 @@ def textgain(call, raw_text, language='en'):
     else:
         return "Call not specified"
 
-    r = requests.post(url, data={'q':raw_text, 'lang':language})
-
-    return json.loads(r.text).get(call)
+    try:
+        r = requests.post(url, data={'q':raw_text, 'lang':language})
+        return json.loads(r.text).get(call)
+    except:
+        pass
 """
 def gender(raw_text):
     g = textgain('gender', raw_text)

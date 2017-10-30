@@ -7,6 +7,7 @@ Opens and reads document to string raw_text. Relies on textract to handle
 
 
 import datetime
+import json
 import math
 import os
 import re
@@ -20,6 +21,7 @@ from random import randint
 
 import docx2txt
 import nltk
+import requests
 import textract
 import unidecode
 from nltk import FreqDist, pos_tag, tokenize
@@ -27,19 +29,19 @@ from nltk.corpus import cmudict, stopwords
 from nltk.tokenize import RegexpTokenizer
 from proselint.tools import lint
 from textstat.textstat import textstat
-from external.education import education_result
-from enchant.checker import SpellChecker
-from passive.passive import main as passive
+
 from cliches import cliches
+from conventions.conventions import main as grammar
+from enchant.checker import SpellChecker
 from external.aylien import auth as aylien_auth
-
-
+from external.education import education_result
+from gensim.summarization import summarize
+from passive.passive import main as passive
 from sentiment import sentiment
 from textblob import TextBlob
 from textgain.textgain import textgain
-from conventions.conventions import main as grammar
-from gensim.summarization import summarize
-
+from external.rosette import rosette_key
+from rosette.api import API, DocumentParameters, RosetteException
 # from mimetypes import MimeTypes
 
 
@@ -305,24 +307,49 @@ class Sample:
                 self.api_sentiment = ""
                 pass
             # education level (external - calls to textgain)
-            self.edu = education_result(self.raw_text)
-            # age level (external - call to textgain)
-            self.age = textgain('age', self.raw_text, language='en')
-            # guessed gender (external - calls to textgain)
-            self.gender = textgain('gender', self.raw_text)
-            #genre (external - calls to textgain)
-            self.genre = textgain('genre', self.raw_text)
-            #personality (external call to textgain)
-            self.personality = textgain('personality', self.raw_text)
-            if self.personality == 'E':
-                self.personality = 'Extrovert'
-            elif self.personality == u'I':
-                self.personality = 'Introvert'
-            else:
+            try:
+                self.edu = education_result(self.raw_text)
+            except:
                 pass
+            # age level (external - call to textgain)
+            try:
+                self.age = textgain('age', self.raw_text, language='en')
+            except:
+                pass
+            # guessed gender (external - calls to textgain)
+            try:
+                self.gender = textgain('gender', self.raw_text)
+            except:
+                pass
+            #genre (external - calls to textgain)
+            try:
+                self.genre = textgain('genre', self.raw_text)
+            except:
+                pass
+            #personality (external call to textgain)
+            try:
+                self.personality = textgain('personality', self.raw_text)
+                if self.personality == 'E':
+                    self.personality = 'Extrovert'
+                elif self.personality == u'I':
+                    self.personality = 'Introvert'
+                else:
+                    pass
+            except:
+                pass
+            #Rosette
+            self.rosette_key = rosette_key()
+            self.rosette_api = API(user_key=self.rosette_key, service_url='https://api.rosette.com/rest/v1/')
+            self.rosette_params = DocumentParameters()
+            self.rosette_params["language"] = "eng"
+            self.result = self.rosette_params.load_document_string(self.raw_text)
+            self.rosette_sentiment = self.rosette_api.sentiment(self.result)
+            self.rosette_sentiment_result = self,rosette_sentiment['document']
+            # Aylien
             self.aylien_client = aylien_auth()
             self.summary_aylien = self.aylien_client.Summarize({'text': self.raw_text, 'title': self.file_name, 'sentence_number':5})
-            self.tags_aylien = self.aylien_client.Hashtags({'text': self.raw_text})
+            self.hashtags_aylien = self.aylien_client.Hashtags({'text': self.raw_text})
+            self.hashtags =                      self.hashtag_cleaner(self.hashtags_aylien['hashtags'])
             #TextBlob attributes
             self.blob = TextBlob(self.raw_text)
             self.polarity = self.blob.sentiment.polarity
@@ -332,7 +359,7 @@ class Sample:
             # noun phrases
             self.phrases = self.tag_phrases(TextBlob(self.raw_text))
             #textgain
-            self.concepts = textgain('concepts', self.raw_text)
+            ###self.concepts = textgain('concepts', self.raw_text)
             #language_check
             self.check = grammar(self.raw_text)
             self.grammar_error_count = self.check[0]
@@ -660,6 +687,12 @@ class Sample:
                 pronouns.append(pronoun)
         return pronouns
 
+    def hashtag_cleaner(self, hashtags):
+        tags = []
+        for tag in hashtags:
+            tag = tag.replace("#", "")
+            tags.append(tag)
+        return tags
 
 def __del__(self):
     print("Instance of Class 'Sample' removed.")

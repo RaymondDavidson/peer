@@ -33,15 +33,24 @@ from textstat.textstat import textstat
 from cliches import cliches
 from conventions.conventions import main as grammar
 from enchant.checker import SpellChecker
-from external.aylien import auth as aylien_auth
+try:
+    from external.aylien import auth as aylien_auth
+except:
+    print "The external modules that work with Aylien are not installed."
+    pass
 from external.education import education_result
 from gensim.summarization import summarize
 from passive.passive import main as passive
 from sentiment import sentiment
 from textblob import TextBlob
 from textgain.textgain import textgain
-from external.rosette import rosette_key
-from rosette.api import API, DocumentParameters, RosetteException
+# try rosette
+try:
+    from external.rosette import rosette_key
+    from rosette.api import API, DocumentParameters, RosetteException
+except:
+    print("rosette dependencies are not available")
+    pass
 # from mimetypes import MimeTypes
 
 
@@ -338,18 +347,26 @@ class Sample:
             except:
                 pass
             #Rosette
-            self.rosette_key = rosette_key()
-            self.rosette_api = API(user_key=self.rosette_key, service_url='https://api.rosette.com/rest/v1/')
-            self.rosette_params = DocumentParameters()
-            self.rosette_params["language"] = "eng"
-            self.result = self.rosette_params.load_document_string(self.raw_text)
-            self.rosette_sentiment = self.rosette_api.sentiment(self.result)
-            self.rosette_sentiment_result = self,rosette_sentiment['document']
+            try:
+                self.rosette_key = rosette_key()
+                self.rosette_api = API(user_key=self.rosette_key, service_url='https://api.rosette.com/rest/v1/')
+                self.rosette_params = DocumentParameters()
+                self.rosette_params["language"] = "eng"
+                self.result = self.rosette_params.load_document_string(self.raw_text)
+                self.rosette_sentiment = self.rosette_api.sentiment(self.result)
+                self.rosette_sentiment_result = self,rosette_sentiment['document']
+            except:
+                print("Could not contact Rosette dependencies.")
+                pass
             # Aylien
-            self.aylien_client = aylien_auth()
-            self.summary_aylien = self.aylien_client.Summarize({'text': self.raw_text, 'title': self.file_name, 'sentence_number':5})
-            self.hashtags_aylien = self.aylien_client.Hashtags({'text': self.raw_text})
-            self.hashtags =                      self.hashtag_cleaner(self.hashtags_aylien['hashtags'])
+            try:
+                self.aylien_client = aylien_auth()
+                self.summary_aylien = self.aylien_client.Summarize({'text': self.raw_text, 'title': self.file_name, 'sentence_number':5})
+                self.hashtags_aylien = self.aylien_client.Hashtags({'text': self.raw_text})
+                self.hashtags =                      self.hashtag_cleaner(self.hashtags_aylien['hashtags'])
+            except:
+                print("Problem with Aylien")
+                pass
             #TextBlob attributes
             self.blob = TextBlob(self.raw_text)
             self.polarity = self.blob.sentiment.polarity

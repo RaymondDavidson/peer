@@ -3,3 +3,4 @@ peer/tmp/*
 */*.pkl
 peer/external/aylien.py
 peer/external/aylien_secrets.py
+peer/config.json

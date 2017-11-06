@@ -3,4 +3,6 @@ peer/tmp/*
 */*.pkl
 peer/external/aylien.py
 peer/external/aylien_secrets.py
+peer/external/keys.py
+peer/external/rosette_auth.py
 peer/config.json

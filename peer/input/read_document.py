@@ -33,25 +33,24 @@ from textstat.textstat import textstat
 from cliches import cliches
 from conventions.conventions import main as grammar
 from enchant.checker import SpellChecker
+from external.education import education_result
+from external.rosette_auth import rosette_auth
+from external.service_informant import Textgain
+from gensim.summarization import summarize
+from passive.passive import main as passive
+from rosette.api import API, DocumentParameters, RosetteException
+from sentiment import sentiment
+from textblob import TextBlob
+from textgain.textgain import textgain
+
 try:
     from external.aylien import auth as aylien_auth
 except:
     print "The external modules that work with Aylien are not installed."
     pass
-from external.education import education_result
-from gensim.summarization import summarize
-from passive.passive import main as passive
-from sentiment import sentiment
-from textblob import TextBlob
-from textgain.textgain import textgain
-# try rosette
-try:
-    from external.rosette import rosette_key
-    from rosette.api import API, DocumentParameters, RosetteException
-except:
-    print("rosette dependencies are not available")
-    pass
 # from mimetypes import MimeTypes
+
+CONFIG = 'config.json'
 
 
 class Sample:
@@ -348,13 +347,12 @@ class Sample:
                 pass
             #Rosette
             try:
-                self.rosette_key = rosette_key()
-                self.rosette_api = API(user_key=self.rosette_key, service_url='https://api.rosette.com/rest/v1/')
+                self.rosette_client = rosette_auth()
                 self.rosette_params = DocumentParameters()
                 self.rosette_params["language"] = "eng"
-                self.result = self.rosette_params.load_document_string(self.raw_text)
+                self.rosette_params.load_document_string(self.raw_text)
                 self.rosette_sentiment = self.rosette_api.sentiment(self.result)
-                self.rosette_sentiment_result = self,rosette_sentiment['document']
+                self.rosette_sentiment_result = self.rosette_sentiment['document']
             except:
                 print("Could not contact Rosette dependencies.")
                 pass
@@ -710,6 +708,8 @@ class Sample:
             tag = tag.replace("#", "")
             tags.append(tag)
         return tags
+
+
 
 def __del__(self):
     print("Instance of Class 'Sample' removed.")

@@ -38,6 +38,7 @@ from external.rosette_auth import rosette_auth
 from external.service_informant import Textgain
 from gensim.summarization import summarize
 from passive.passive import main as passive
+from readability.readability import Readability
 from rosette.api import API, DocumentParameters, RosetteException
 from sentiment import sentiment
 from textblob import TextBlob
@@ -214,8 +215,8 @@ class Sample:
             # readability data
             self.readability_flesch_re = \
                 textstat.flesch_reading_ease(self.text_no_feed)
-            self.readability_smog_index = \
-                textstat.smog_index(self.text_no_feed)
+            #self.readability_smog_index = \
+            #    textstat.smog_index(self.text_no_feed)
             self.readability_flesch_kincaid_grade = \
                 textstat.flesch_kincaid_grade(self.text_no_feed)
             self.readability_coleman_liau_index = \
@@ -232,6 +233,12 @@ class Sample:
                 textstat.flesch_reading_ease(self.text_no_feed)))
             self.polysyllabcount = textstat.polysyllabcount(self.text_no_feed)
             self.lexicon_count = textstat.lexicon_count(self.text_no_feed)
+            # readability from a different module
+            self.readability_smog_index = self.smog(self.text_no_feed)
+            self.readability_gunning = self.gunning_fog(self.text_no_feed) # doesn't work
+            self.readability_lix = self.lix(self.raw_text) # no result
+            self.readability_rix = self.rix(self.raw_text) # no result
+            # Back to original module
             self.avg_syllables_per_word = textstat.avg_syllables_per_word(
                 self.text_no_feed)
             self.avg_sentence_per_word = textstat.avg_sentence_per_word(
@@ -708,6 +715,23 @@ class Sample:
             tag = tag.replace("#", "")
             tags.append(tag)
         return tags
+
+    def smog(self, txt):
+        r = Readability(txt)
+        r = r.SMOGIndex()
+        return r
+
+    def gunning_fog(self, txt):
+        r = Readability(txt)
+        r = r.GunningFogIndex()
+
+    def lix(self, txt):
+        r = Readability(txt)
+        r = r.LIX()
+
+    def rix(self, txt):
+        r = Readability(txt)
+        r = r.RIX()
 
 
 

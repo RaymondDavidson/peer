@@ -724,15 +724,17 @@ class Sample:
     def gunning_fog(self, txt):
         r = Readability(txt)
         r = r.GunningFogIndex()
+        return r
 
     def lix(self, txt):
         r = Readability(txt)
         r = r.LIX()
+        return r
 
     def rix(self, txt):
         r = Readability(txt)
         r = r.RIX()
-
+        return r
 
 
 def __del__(self):

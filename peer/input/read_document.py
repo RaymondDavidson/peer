@@ -341,6 +341,11 @@ class Sample:
                 self.genre = textgain('genre', self.raw_text)
             except:
                 pass
+            # textgain concepts
+            try:
+                self.textgain_concepts = textgain('concepts', self.raw_text)
+            except:
+                pass
             #personality (external call to textgain)
             try:
                 self.personality = textgain('personality', self.raw_text)
@@ -366,9 +371,13 @@ class Sample:
             # Aylien
             try:
                 self.aylien_client = aylien_auth()
+                self.combined_aylien = self.aylien_client.Combined({'text': self.raw_text, 'endpoint':["hashtags", "concepts", "classify", "entities"]})
                 self.summary_aylien = self.aylien_client.Summarize({'text': self.raw_text, 'title': self.file_name, 'sentence_number':5})
                 self.hashtags_aylien = self.aylien_client.Hashtags({'text': self.raw_text})
                 self.hashtags =                      self.hashtag_cleaner(self.hashtags_aylien['hashtags'])
+                #self.entities_aylien = self.aylien_client.Entities({'text':self.raw_text})
+                #self.keywords_aylien = self.entities_aylien['entities']['keyword']
+
             except:
                 print("Problem with Aylien")
                 pass

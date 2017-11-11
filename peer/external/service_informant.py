@@ -47,7 +47,7 @@ class Rosette:
         self.sentiment = self.make_call('sentiment')
         self.categories = self.make_call('categories')
         self.entities = self.make_call('entities')
-        self.ping = self.make_call('ping')
+        #self.ping = self.make_call('ping')
 
 
     def make_call(self, call):

@@ -26,6 +26,7 @@
 <div class="container">
     <div class="hidden-print">
         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+            <!-- Metadata -->
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="report">
                     <h4 class="panel-title">
@@ -34,6 +35,7 @@
                         </a>
                     </h4>
                 </div>
+
                 <div class="panel-collapse collapse in" id="metadata" role="tabpanel">
                     <div class="panel-body">
 
@@ -45,21 +47,23 @@
                     </div>
                 </div>
             </div>
+            <!-- Summary -->
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="heading4">
                     <h4 class="panel-title">
-                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#intro" aria-expanded="false" aria-controls="collapseFour">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#summary" aria-expanded="false" aria-controls="collapseFour">
                             Summary
                         </a>
                     </h4>
                 </div>
-                <div class="panel-collapse collapse" id="intro" role="tabpanel">
+                <div class="panel-collapse collapse" id="summary" role="tabpanel">
                     <div class="panel-body">
                         <p>{{ object.summary }}
                         <p>
                     </div>
                 </div>
             </div>
+            <!-- Statistics -->
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="heading2">
                     <h4 class="panel-title">
@@ -85,6 +89,7 @@
                     </div>
                 </div>
             </div>
+            <!-- tone -->
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="heading3">
                     <h4 class="panel-title">
@@ -103,6 +108,7 @@
                     </div>
                 </div>
             </div>
+            <!-- Intro and Conclusion -->
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="heading4">
                     <h4 class="panel-title">
@@ -181,6 +187,7 @@
                     </div>
                 </div>
             </div>
+            <!-- Readability -->
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="heading5">
                     <h4 class="panel-title">
@@ -204,6 +211,7 @@
                     </div>
                 </div>
             </div>
+            <!-- Parts of Speech -->
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="heading5">
                     <h4 class="panel-title">
@@ -220,6 +228,7 @@
                     </div>
                 </div>
             </div>
+            <!-- Punctuation -->
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="heading5">
                     <h4 class="panel-title">
@@ -251,6 +260,7 @@
                     </div>
                 </div>
             </div>
+            <!-- Cliches -->
             {% if object.cliche_count %}
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="heading5">
@@ -274,6 +284,8 @@
                 </div>
             </div>
             {% endif %}
+
+            <!-- Unfamiliar Words -->
             {% if object.unrecognized_words %}
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="heading5">
@@ -301,6 +313,7 @@
             </div>
             {% endif %}
 
+            <!-- Style -->
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="heading6">
                     <h4 class="panel-title">
@@ -322,7 +335,7 @@
                     </div>
                 </div>
             </div>
-
+            <!-- Grammar Check -->
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="heading6">
                     <h4 class="panel-title">
@@ -342,7 +355,8 @@
                     </div>
                 </div>
             </div>
-            {% if object.concepts %}
+
+            {% if object.textgain_concepts %}
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="heading7">
                     <h4 class="panel-title">
@@ -354,9 +368,9 @@
 
                 <div class="panel-collapse collapse" id="concepts" role="tabpanel">
                     <div class="panel-body">
-                        {% if object.concepts %}
+                        {% if object.textgain_concepts %}
                                 <ul>
-                                    {% for concept in object.concepts %}
+                                    {% for concept in object.textgain_concepts %}
                                     <li>{{ concept }}</li>
                                     {% endfor %}
                                 </ul>
@@ -365,6 +379,34 @@
                 </div>
             </div>
             {% endif %}
+
+            <!--hashtags -->
+            {% if object.hashtags %}
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="heading7">
+                    <h4 class="panel-title">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#hashtags" aria-expanded="false" aria-controls="collapseEleven">
+                            "Hashtags" (from external source)
+                        </a>
+                    </h4>
+                </div>
+
+                <div class="panel-collapse collapse" id="hashtags" role="tabpanel">
+                    <div class="panel-body">
+                        {% if object.hashtags %}
+                                <ul>
+                                    {% for tag in object.hashtags %}
+                                    <li>{{ tag }}</li>
+                                    {% endfor %}
+                                </ul>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+
+            <!-- Noun Phrases -->
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="heading7">
                     <h4 class="panel-title">
@@ -386,6 +428,31 @@
                     </div>
                 </div>
             </div>
+
+            <!-- About the Author -->
+            <!-- Disabled -->
+            {% if object.gender %}
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="heading8">
+                    <h4 class="panel-title">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#author" aria-expanded="false" aria-controls="collapseFour">
+                            Author Inferences (Unreliable)
+                        </a>
+                    </h4>
+                </div>
+                <div class="panel-collapse collapse" id="author" role="tabpanel">
+                    <div class="panel-body">
+                        <p>Age: {{ object.age }}</p>
+                        <p>Education: {{ object.edu }}</p>
+                        <p>Personality: {{ object.personality }}</p>
+                        <p>Gender: {{ object.gender }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+
+            <!-- Full Text -->
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="heading8">
                     <h4 class="panel-title">

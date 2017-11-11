@@ -2,6 +2,7 @@
 
 import json
 import requests
+from aylienapiclient import textapi
 
 
 class Service:
@@ -56,6 +57,21 @@ class Rosette:
         self.data = {'content': self.text}
         self.headers = {'X-RosetteAPI-Key': self.apikey, 'Content-Type':'application/json'}
         self.r = requests.post(self.endpoint, params=self.data, headers=self.headers)
+
+class Aylien:
+    def __init__(self, key, appid):
+        self.apikey = key
+        self.appid = appid
+        self.client = textapi(self.appid, self.apikey)
+
+    def r(self, text):
+        self.request = self.client({'text': text, 'endpoint':["hashtags", "concepts", "classify", "entities"]})
+        return self.request
+
+
+
+
+
 
 
 

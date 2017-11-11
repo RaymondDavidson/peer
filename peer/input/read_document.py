@@ -51,7 +51,8 @@ except:
     pass
 # from mimetypes import MimeTypes
 
-CONFIG = 'config.json'
+CONFIG_FILE = 'config.json'
+
 
 
 class Sample:

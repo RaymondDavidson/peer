@@ -7,3 +7,5 @@ peer/external/keys.py
 peer/external/rosette_auth.py
 peer/config.json
 peer/external/rosette_cat_ex.py
+peer/tr-functions/*
+peer/txtrzr/*

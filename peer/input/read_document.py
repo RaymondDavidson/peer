@@ -161,7 +161,8 @@ class Sample:
         self.user = ""
         if os.path.isfile(writing):
             self.abs_path = os.path.abspath(writing)
-
+            self.file_bytes = os.path.getsize(self.abs_path)
+            self.file_kbytes = float(self.file_bytes/1000.0)
             self.file_name = os.path.basename(writing)
             self.mime = MimeTypes()
             self.guessed_type = self.mime.guess_type(writing)

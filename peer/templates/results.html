@@ -41,6 +41,7 @@
 
                             <p>File Name: {{ object.file_name }}</p>
                             <p>File Type: {{ object.file_type }}</p>
+                            <p>File Size (Kb): {{ object.file_kbytes }}</p>
                             <!--<p>Guessed Type: {{ object.guessed_type[0] }}</p>-->
                             <!--<p>Path to file: {{ object.abs_path }}</p>-->
                             <p>Report Generated: {{ object.time_stamp }}</p>
@@ -49,6 +50,7 @@
             </div>
 
             <!-- Summary (External, 4 sentence max) -->
+            {% if object.summary_paragraph_aylien %}
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="heading4">
                     <h4 class="panel-title">
@@ -64,6 +66,7 @@
                     </div>
                 </div>
             </div>
+            {% endif %}
 
             <!-- Summary (Unlimited Sentence Count) -->
             <div class="panel panel-default">

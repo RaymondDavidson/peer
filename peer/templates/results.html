@@ -316,6 +316,59 @@
             </div>
             {% endif %}
 
+            <!-- Style, Grammar, Spelling (presciptivist) -->
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="heading5.5">
+                    <h4 class="panel-title">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordian" href="#prescriptions" aria-expanded="false" aria-controls="collapse5.5">
+                            Grammar, Spelling, Style (Prescriptive)
+                        </a>
+                    </h4>
+                </div>
+                <div class="panel-collapse collapse" id="prescriptions" role="tabpanel">
+                    <div class="panel-body">
+                        <div id="unrecognized_words">
+                            <p><strong>Unrecognized Words</strong></p>
+                            <p><em>Placeholder</em></p>
+                        </div>
+                        {% if object.hard_spelling %}
+                        <div id="difficult_spells">
+                            <p><strong>Difficult-to-spell words</strong> (spelled correctly)</p>
+                                <ul>
+                                    {% for word in object.hard_spelling %}
+                                    <li>{{ word }}</li>
+                                    {% endfor %}
+                                </ul>
+                        </div>
+                        {% endif %}
+
+                        {% if object.lint_suggestions %}
+                        <div id="proselint">
+                            <p><strong>Prose Linter</strong> (see a list of checks <a href="http://proselint.com/checks/" target="_blank">here</a>)</p>
+                                <p><strong>Note</strong>: please ignore quotation-mark style suggestions.</p>
+                                <ol>
+                                    {% for suggestion in object.lint_suggestions %}
+                                    <li>{{ suggestion[1] }}</li>
+                                    {% endfor %}
+                                </ol>
+                        </div>
+                        {% endif %}
+
+                        {% if object.grammar_feedback %}
+                        <div id="grammar">
+                            <p><strong>Grammar Check</strong> (some overlap with linter above)
+
+                                <p>Potential Error Count: {{ object.grammar_error_count }}</p>
+
+                                {% for check in object.grammar_feedback %}
+                                <pre>{{ check }}</pre>
+                                {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
             <!-- Style -->
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="heading6">
@@ -340,14 +393,14 @@
             </div>
             <!-- Grammar Check -->
             <div class="panel panel-default">
-                <div class="panel-heading" role="tab" id="heading6">
+                <div class="panel-heading" role="tab" id="heading7">
                     <h4 class="panel-title">
-                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#grammar" aria-expanded="false" aria-controls="collapseTen">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#grammar-check" aria-expanded="false" aria-controls="collapseTen">
                             Grammar and Spelling Suggestions (Prescriptive)
                         </a>
                     </h4>
                 </div>
-                <div class="panel-collapse collapse" id="grammar" role="tabpanel">
+                <div class="panel-collapse collapse" id="grammar-check" role="tabpanel">
                     <div class="panel-body">
                         <p>Potential problems: {{ object.grammar_error_count }}
                         <ol>

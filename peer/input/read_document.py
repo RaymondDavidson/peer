@@ -43,6 +43,7 @@ from rosette.api import API, DocumentParameters, RosetteException
 from sentiment import sentiment
 from textblob import TextBlob
 from textgain.textgain import textgain
+from difficult_spelling.difficult_words import difficult_spells
 
 try:
     from external.aylien import auth as aylien_auth
@@ -197,7 +198,7 @@ class Sample:
                                         (float(self.passive_sentence_count) /
                                          float(self.sentence_count)))
             self.percent_passive_round = round(self.percent_passive, 2)
-
+            self.hard_spelling = difficult_spells(self.raw_text)
             self.be_verb_analysis = self.count_be_verbs(self.sentence_tokens)
             self.be_verb_count = self.be_verb_analysis[0]
             self.weak_sentences_all = self.be_verb_analysis[1]

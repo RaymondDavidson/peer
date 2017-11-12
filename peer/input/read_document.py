@@ -374,7 +374,8 @@ class Sample:
             try:
                 self.aylien_client = aylien_auth()
                 self.combined_aylien = self.aylien_client.Combined({'text': self.raw_text, 'endpoint':["hashtags", "concepts", "classify", "entities"]})
-                self.summary_aylien = self.aylien_client.Summarize({'text': self.raw_text, 'title': self.file_name, 'sentence_number':5})
+                self.summary_aylien = self.aylien_client.Summarize({'text': self.raw_text, 'title': self.file_name, 'sentence_number':4})
+                self.summary_paragraph_aylien = " ".join(self.summary_aylien['sentences'])
                 self.hashtags_aylien = self.aylien_client.Hashtags({'text': self.raw_text})
                 self.hashtags =                      self.hashtag_cleaner(self.hashtags_aylien['hashtags'])
                 #self.entities_aylien = self.aylien_client.Entities({'text':self.raw_text})

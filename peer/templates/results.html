@@ -2,6 +2,7 @@
 {% block content %}
 
 {% block page_content %}
+<!-- Jumbotron -->
 <div class="container">
     <div class="hidden-print">
         <div class="jumbotron">
@@ -16,13 +17,13 @@
 
 
 
-
+<!-- Report Title -->
 <div class="container visible-print">
     <h1>Report: <em>{{ object.file_name }} ({{ object.time_stamp }})</em></h1>
 </div>
 
 
-
+<!-- Display - Do not print -->
 <div class="container">
     <div class="hidden-print">
         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
@@ -62,7 +63,7 @@
                 <div class="panel-collapse collapse" id="summary4" role="tabpanel">
                     <div class="panel-body">
                         <p>{{ object.summary_paragraph_aylien }}
-                        <p>
+
                     </div>
                 </div>
             </div>
@@ -131,7 +132,7 @@
             </div>
             <!-- Intro and Conclusion -->
             <div class="panel panel-default">
-                <div class="panel-heading" role="tab" id="heading4">
+                <div class="panel-heading" role="tab" id="heading3.5">
                     <h4 class="panel-title">
                         <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#intro" aria-expanded="false" aria-controls="collapseFour">
                             Introduction and Conclusion
@@ -210,7 +211,7 @@
             </div>
             <!-- Readability -->
             <div class="panel panel-default">
-                <div class="panel-heading" role="tab" id="heading5">
+                <div class="panel-heading" role="tab" id="heading4.9">
                     <h4 class="panel-title">
                         <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#readability" aria-expanded="false" aria-controls="collapseSix">
                             Readability Analysis
@@ -224,7 +225,7 @@
                             object.readability_flesch_kincaid_grade }}</p>
                         <p>Coleman Liau Index: {{ object.readability_coleman_liau_index }}</p>
                         <p>SMOG Index: {{ object.readability_smog_index}}</p>
-                        <p>Dall Chall: {{ object.readability_dale_chall }}</p>
+                        <p>Dale Chall: {{ object.readability_dale_chall }}</p>
                         <p>Linsear Write: {{ object.readability_linser_write }}</p>
                         <p>Gunning Fog: {{ object.readability_gunning }}</p>
                         <p>Automated Readability Index: {{ object.readability_ari }}</p>
@@ -232,6 +233,8 @@
                         <hr>
                         <p>LIX: {{ object.readability_lix }}</p>
                         <p>RIX: {{ object.readability_rix }}</p>
+                        <hr />
+                        <p><em>Note: Please consider checking these readability scores with results at <a href="http://www.readabilityformulas.com/free-readability-formula-tests.php" target="_blank">readabilityformulas.com</a> and <a href="https://readable.io/" target="_blank">readable.io</a></em></p>
                     </div>
                 </div>
             </div>
@@ -323,7 +326,7 @@
                     <div class="panel-body">
 
 
-                            <p><strong>Note:</strong> This is an opportunity to see if the text was corrupted.</p>
+                            <p><strong>Note:</strong> This is an opportunity to see if the text was corrupted and to check for spelling mistakes.</p>
                             <ul>
                                 {% for word in object.unrecognized_words %}
                                     <li>{{ word }}</li>
@@ -564,228 +567,269 @@
 <!-- Print Media Report -->
 <div class="container">
 
-
+    <!-- PRINT but don't display -->
     <div class="visible-print">
-    <div>
-        <h2>Metadata</h2>
-            <p>File Name: {{ object.file_name }}</p>
-            <p>File Type: {{ object.file_type }}</p>
-            <p>Report Generated: {{ object.time_stamp }}</p>
-    </div>
+        <div>
+            <h2>Metadata</h2>
+                <p>File Name: {{ object.file_name }}</p>
+                <p>File Type: {{ object.file_type }}</p>
+                <p>Report Generated: {{ object.time_stamp }}</p>
+                <p>File Size (kb): {{ object.file_kbytes }}
+        </div>
 
 
-    <div>
-       <h2>Statistics</h2>
-            <p>Page Count: {{ object.page_length }} (assuming 250 words per page)</p>
-            <p>Paper Sides: {{ object.paper_count }}
-            <p>Sentence Count: {{ object.sentence_count }}</p>
-            <p>Average letters per word: {{ object.avg_letter_per_word }}</p>
-            <p>Average sentence length: {{ object.avg_sentence_length }}</p>
-            <p>Sentences > 20 words: {{ object.long_sentences }} (<em>of {{ object.sentence_count }} sentences)</p>
-            <p>Average syllables per word: {{ object.avg_syllables_per_word }}</p>
-            <p>Polysyllables (words with 3 or more syllables): {{ object.polysyllabcount }}</p>
-            <p>"Difficult words": {{ object.difficult_words }}</p>
-            <p>Lexicon count (word count): {{ object.lexicon_count }}</p>
-    </div>
+        <div>
+           <h2>Statistics</h2>
+                <p>Page Count: {{ object.page_length }} (assuming 250 words per page)</p>
+                <p>Paper Sides: {{ object.paper_count }}
+                <p>Sentence Count: {{ object.sentence_count }}</p>
+                <p>Average letters per word: {{ object.avg_letter_per_word }}</p>
+                <p>Average sentence length: {{ object.avg_sentence_length }}</p>
+                <p>Sentences > 20 words: {{ object.long_sentences }} (<em>of {{ object.sentence_count }} sentences)</p>
+                <p>Average syllables per word: {{ object.avg_syllables_per_word }}</p>
+                <p>Polysyllables (words with 3 or more syllables): {{ object.polysyllabcount }}</p>
+                <p>"Difficult words": {{ object.difficult_words }}</p>
+                <p>Lexicon count (word count): {{ object.lexicon_count }}</p>
+        </div>
+        {{% if object.summary_aylien %}}
+        <div>
+            <h2>Summary <small>(Limited to four sentences)</small></h2>
+                <p>{{ object.summary_aylien }}</p>
+                <p><em>Note: Call to external tool</em></p>
+
+        </div>
+        {{% endif %}}
+        <div>
+            <h2>Summary <small>(Length contingent on that of the full text)</small></h2>
+                <p>{{ object.summary }}</p>
+        </div>
+
+
+        <div>
+            <h2>Readability</h2>
+                <p>Flesch Reading Ease Score: {{ object.readability_flesch_re }} ({{object.flesch_re_desc_str}})</p>
+                <p>Flesch-Kincaid Reading Grade: {{
+                    object.readability_flesch_kincaid_grade }}</p>
+                <p>Coleman Liau Index: {{ object.readability_coleman_liau_index }}</p>
+                <p>SMOG Index: {{ object.readability_smog_index }}</p>
+                <p>Gunning Fog: {{ object.readability_gunning }}
+                <p>Dale Chall: {{ object.readability_dale_chall }}</p>
+                <p>Linsear Write: {{ object.readability_linser_write }}</p>
+                <p>Automated Readability Index: {{ object.readability_ari }}</p>
+                <p>Readability (Standard): {{ object.readability_standard }}</p>
+                <hr />
+                <p><em>Note: Please consider checking these readability scores with results at <a href="http://www.readabilityformulas.com/free-readability-formula-tests.php" target="_blank">readabilityformulas.com</a> and <a href="https://readable.io/" target="_blank">readable.io</a></em></p>
+        </div>
 
 
 
-    <div>
-        <h2>Tone</h2>
-           <p>Polarity (locally determined; ranges from -1.0 to 1.0): {{ object.polarity }}</p>
-           {% if object.api_sentiment %}
-           <p>Sentiment (remote call: pos, neutral, or neg): {{ object.api_sentiment }}</p>
-           {% endif %}
-           <p>Subjectivity (ranges 0.0 through 1.0, where 1.0 is very subjective): {{ object.subjectivity }}</p>
-    </div>
+        <div>
+            <h2>Tone</h2>
+               <p>Polarity (locally determined; ranges from -1.0 to 1.0): {{ object.polarity }}</p>
+               {% if object.api_sentiment %}
+               <p>Sentiment (remote call: pos, neutral, or neg): {{ object.api_sentiment }}</p>
+               {% endif %}
+               <p>Subjectivity (ranges 0.0 through 1.0, where 1.0 is very subjective): {{ object.subjectivity }}</p>
+        </div>
 
-    <div>
-        <h2>Voice/Point of View</h2>
-        <p>First-Person Pronoun Count: {{ object.first_person_count }}</p>
-        {% if object.first_person_count %}
-            <p>First-Person Pronouns:</p>
+        <div>
+            <h2>Voice/Point of View</h2>
+            <p>First-Person Pronoun Count: {{ object.first_person_count }}</p>
+            {% if object.first_person_count %}
+                <p>First-Person Pronouns:</p>
+                    <ul>
+                        {% for pronoun in object.first_person %}
+                        <li>{{ pronoun }}</li>
+                        {% endfor %}
+                    </ul>
+            {% endif %}
+            <p>Second-Person Pronoun Count: {{ object.second_person_count }}</p>
+            {% if object.second_person_count %}
+                <p>Second-Person Pronouns:</p>
+                    <ul>
+                        {% for pronoun in object.second_person %}
+                        <li>{{ pronoun }}</li>
+                        {% endfor %}
+                    </ul>
+            {% endif %}
+        </div>
+        <div>
+            <h2>Introduction and Conclusion</h2>
+                <p>Introductory Sentence: <em>{{ object.intro }}</em>
+                <p>Concluding Sentence: <em>{{ object.exit }}</em>
+        </div>
+
+
+
+        <div>
+            <h2>Lard Analysis</h2>
+                <p>Occurences of the verb <em>to be</em>: {{ object.be_verb_count}} (over {{ object.sentence_count }} sentences )</p>
+                <p>All other aux verbs:</p>
+
                 <ul>
-                    {% for pronoun in object.first_person %}
-                    <li>{{ pronoun }}</li>
+                    {% for modal in object.modal_dist %}
+                    <li>{{ modal }}</li>
                     {% endfor %}
                 </ul>
-        {% endif %}
-        <p>Second-Person Pronoun Count: {{ object.second_person_count }}</p>
-        {% if object.second_person_count %}
-            <p>Second-Person Pronouns:</p>
-                <ul>
-                    {% for pronoun in object.second_person %}
-                    <li>{{ pronoun }}</li>
+                <p>Weak verbs to sentences: {{ object.weak_verbs_to_sentences_round }} % </p>
+                <p>Sentences with passive voice: {{ object.passive_sentence_count }}</p>
+                <p>Percent passive sentences (rounded): {{ object.percent_passive_round }} %</p>
+                <p>Example passive sentence from {{ object.file_name }} (randomly selected): <em>{{ object.rand_passive }}</em></p>
+                <p>Example <em>to be</em> usage from {{ object.file_name }}
+               (randomly selected): <em>{{ object.rand_weak_sentence }}</em></p>
+               <p>Prepositions (or subordinating conjunctions!): {{ object.preposition_count }} (across {{ object.sentence_count }} sentences)</p>
+        </div>
+
+
+        <div>
+            <h2>Parts of Speech</h2>
+                <p>Adverb count: {{ object.adverb_count }} of {{ object.lexicon_count }} words</p>
+                <p>Adjective count: {{ object.adjective_count }} of {{ object.lexicon_count }} words</p>
+                <p>Coordinating Conjunctions: {{ object.cc_count }} out of {{ object.lexicon_count }} words (or over {{ object.sentence_count }} sentences)</p>
+        </div>
+
+        <div>
+            <h2>Punctuation</h2>
+            <p>Comma Count: at least {{ object.commas }} commas over {{ object.sentence_count }} sentences</p>
+
+            {% if object.semicolons %}
+            <p>Semicolons: {{ object.semicolons }} semicolons over {{ object.sentence_count }} sentences.</p>
+            {% endif %}
+            <p>Example comma usage: <em>{{ object.comma_example }}</em></p>
+            {% if object.semicolon_example %}
+            <p>Example semicolon usage: <em>{{ object.semicolon_example }}</em></p>
+            {% endif %}
+            {% if object.question_marks %}
+            <p>Question marks: {{ object.question_marks }}</p>
+            <p>Example question from text: <em>{{ object.question_example }}</em></p>
+            {% endif %}
+
+            {% if object.bangs %}
+            <p>Exclamation Points: {{ object.bangs }}</p>
+            <p>Example Excamation: {{ object.exclamation_example }}</p>
+            {% endif %}
+        </div>
+
+
+
+        {% if object.cliche_count %}
+        <div>
+            <h2>Cliché Identification</h2>
+                <p>Cliché Count: {{ object.cliche_count }}</p>
+                <ol>
+                    {% for cliche in object.cliches_in_text %}
+                    <li>{{ cliche }}</li>
                     {% endfor %}
-                </ul>
+                </ol>
+        </div>
         {% endif %}
-    </div>
-    <div>
-        <h2>Introduction and Conclusion</h2>
-            <p>Introductory Sentence: <em>{{ object.intro }}</em>
-            <p>Concluding Sentence: <em>{{ object.exit }}</em>
-    </div>
 
-
-
-    <div>
-        <h2>Lard Analysis</h2>
-            <p>Occurences of the verb <em>to be</em>: {{ object.be_verb_count}} (over {{ object.sentence_count }} sentences )</p>
-            <p>All other aux verbs:</p>
-
-            <ul>
-                {% for modal in object.modal_dist %}
-                <li>{{ modal }}</li>
+        {% if object.lint_suggestions %}
+        <div>
+            <h2>Concrete Suggestions for Consideration</h2>
+                <p>Please ignore quotation-mark style suggestions.</p>
+                <ol>
+                {% for suggestion in object.lint_suggestions %}
+                <li>{{ suggestion[1] }}</li>
                 {% endfor %}
-            </ul>
-            <p>Weak verbs to sentences: {{ object.weak_verbs_to_sentences_round }} % </p>
-            <p>Sentences with passive voice: {{ object.passive_sentence_count }}</p>
-            <p>Percent passive sentences (rounded): {{ object.percent_passive_round }} %</p>
-            <p>Example passive sentence from {{ object.file_name }} (randomly selected): <em>{{ object.rand_passive }}</em></p>
-            <p>Example <em>to be</em> usage from {{ object.file_name }}
-           (randomly selected): <em>{{ object.rand_weak_sentence }}</em></p>
-           <p>Prepositions (or subordinating conjunctions!): {{ object.preposition_count }} (across {{ object.sentence_count }} sentences)</p>
-    </div>
-
-    <div>
-        <h2>Readability</h2>
-            <p>Flesch Reading Ease Score: {{ object.readability_flesch_re }} ({{object.flesch_re_desc_str}})</p>
-            <p>Flesch-Kincaid Reading Grade: {{
-                object.readability_flesch_kincaid_grade }}</p>
-            <p>Coleman Liau Index: {{ object.readability_coleman_liau_index }}</p>
-            <p>SMOG Index: {{ object.readability_smog_index }}</p>
-            <p>Gunning Fog: {{ object.readability_gunning }}
-            <p>Dall Chall: {{ object.readability_dale_chall }}</p>
-            <p>Linsear Write: {{ object.readability_linser_write }}</p>
-            <p>Automated Readability Index: {{ object.readability_ari }}</p>
-            <p>Readability (Standard): {{ object.readability_standard }}</p>
-    </div>
-
-    <div>
-        <h2>Parts of Speech</h2>
-            <p>Adverb count: {{ object.adverb_count }} of {{ object.lexicon_count }} words</p>
-            <p>Adjective count: {{ object.adjective_count }} of {{ object.lexicon_count }} words</p>
-            <p>Coordinating Conjunctions: {{ object.cc_count }} out of {{ object.lexicon_count }} words (or over {{ object.sentence_count }} sentences)</p>
-    </div>
-
-    <div>
-        <h2>Punctuation</h2>
-        <p>Comma Count: at least {{ object.commas }} commas over {{ object.sentence_count }} sentences</p>
-
-        {% if object.semicolons %}
-        <p>Semicolons: {{ object.semicolons }} semicolons over {{ object.sentence_count }} sentences.</p>
-        {% endif %}
-        <p>Example comma usage: <em>{{ object.comma_example }}</em></p>
-        {% if object.semicolon_example %}
-        <p>Example semicolon usage: <em>{{ object.semicolon_example }}</em></p>
-        {% endif %}
-        {% if object.question_marks %}
-        <p>Question marks: {{ object.question_marks }}</p>
-        <p>Example question from text: <em>{{ object.question_example }}</em></p>
+                </ol>
+        </div>
         {% endif %}
 
-        {% if object.bangs %}
-        <p>Exclamation Points: {{ object.bangs }}</p>
-        <p>Example Excamation: {{ object.exclamation_example }}</p>
-        {% endif %}
-    </div>
-
-
-
-    {% if object.cliche_count %}
-    <div>
-        <h2>Cliché Identification</h2>
-            <p>Cliché Count: {{ object.cliche_count }}</p>
-            <ol>
-                {% for cliche in object.cliches_in_text %}
-                <li>{{ cliche }}</li>
-                {% endfor %}
-            </ol>
-    </div>
-    {% endif %}
-
-    {% if object.lint_suggestions %}
-    <div>
-        <h2>Concrete Suggestions for Consideration</h2>
-            <p>Please ignore quotation-mark style suggestions.</p>
-            <ol>
-            {% for suggestion in object.lint_suggestions %}
-            <li>{{ suggestion[1] }}</li>
-            {% endfor %}
-            </ol>
-    </div>
-    {% endif %}
-
-    {% if object.grammar_error_count %}
-    <div>
-        <h2>Grammar Check (Prescriptive)</h2>
-        <p>Potential Grammar Errors: {{ object.grammar_error_count }}
-            <div class="row">
-                <div class="col-md-12">
-                  <div style="white-space: pre-wrap; line-height: 150%;">
-                      {% for check in object.grammar_feedback %}
-                        {{ check }}
-                      {% endfor %}
+        {% if object.grammar_error_count %}
+        <div>
+            <h2>Grammar Check (Prescriptive)</h2>
+            <p>Potential Grammar Errors: {{ object.grammar_error_count }}
+                <div class="row">
+                    <div class="col-md-12">
+                      <div style="white-space: pre-wrap; line-height: 150%;">
+                          {% for check in object.grammar_feedback %}
+                            {{ check }}
+                          {% endfor %}
+                      </div>
                   </div>
               </div>
-          </div>
 
-    </div>
-    {% endif %}
+        </div>
+        {% endif %}
 
 
-    {% if object.unrecognized_words %}
-      {% if "odt" not in object.file_name %}
-    <div>
-      <h2>Unrecognized Words</h2>
-        <p><strong>Note:</strong> An opportunity to see if the text was munged.</p>
-        <ul>
-            {% for word in object.unrecognized_words %}
-                <li>{{ word }}</li>
-            {% endfor %}
-        </ul>
-    </div>
-      {% endif %}
-    {% endif %}
-
-    {% if object.concepts %}
+        {% if object.unrecognized_words %}
+          {% if "odt" not in object.file_name %}
         <div>
-            <h2>Concepts</h2>
-            <p><em>From external API</em></p>
+          <h2>Unrecognized Words</h2>
+            <p><strong>Note:</strong> An opportunity to see if the text was munged.</p>
             <ul>
-                {% for category in object.concepts %}
-                    <li>{{ category }}</li>
+                {% for word in object.unrecognized_words %}
+                    <li>{{ word }}</li>
                 {% endfor %}
             </ul>
         </div>
-    {% endif %}
+          {% endif %}
+        {% endif %}
+
+        {% if object.concepts %}
+            <div>
+                <h2>Concepts</h2>
+                <p><em>From external API</em></p>
+                <ul>
+                    {% for category in object.concepts %}
+                        <li>{{ category }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        {% if object.hashtags %}
+            <div>
+                <h2>Hashtags</h2>
+                <p><em>Note: Can be helpful instead of just a novelty: Consider using to identify key concepts/entities. (From external tool.)</em></p>
+                <ul>
+                    {% for tag in object.hashtags %}
+                        <li>{{ tag }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
 
 
 
-
-    {% if object.phrases %}
-    <div>
-        <h2>Noun Phrases</h2>
-            <ul>
-                {% for tag in object.phrases %}
-                <li>{{ tag }}</li>
-                {% endfor %}
-            </ul>
-    </div>
-    {% endif %}
-    <div>
-        <h2>Full Text</h2>
-        <div class="row">
-            <div class="col-md-12">
-              <div style="white-space: pre-wrap; line-height: 150%;">{{ object.raw_text }}</div>
-          </div>
+        {% if object.phrases %}
+        <div>
+            <h2>Noun Phrases</h2>
+                <ul>
+                    {% for tag in object.phrases %}
+                    <li>{{ tag }}</li>
+                    {% endfor %}
+                </ul>
         </div>
+        {% endif %}
+
+        {% if object.gender %}
+        <div>
+            <h2>Author Insights <small>Not reliable yet</small>
+                <p><em>Note: relies on external tool</em></p>
+                <p>Age: {{ object.age }}</p>
+                <p>Education: {{ object.edu }}</p>
+                <p>Personality: {{ object.personality }}</p>
+                <p>Gender: {{ object.gender }}</p>
+        </div>
+        {% endif %}
+
+
+        <div>
+            <h2>Full Text</h2>
+            <div class="row">
+                <div class="col-md-12">
+                  <div style="white-space: pre-wrap; line-height: 150%;">{{ object.raw_text }}</div>
+              </div>
+            </div>
+        </div>
+
     </div>
-
-
 </div>
 
 
-</div>
+<!--</div>-->
 {% endblock %}
 {% endblock %}

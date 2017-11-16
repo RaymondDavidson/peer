@@ -591,14 +591,14 @@
                 <p>"Difficult words": {{ object.difficult_words }}</p>
                 <p>Lexicon count (word count): {{ object.lexicon_count }}</p>
         </div>
-        {{% if object.summary_aylien %}}
+        {% if object.summary_aylien %}
         <div>
             <h2>Summary <small>(Limited to four sentences)</small></h2>
                 <p>{{ object.summary_aylien }}</p>
                 <p><em>Note: Call to external tool</em></p>
 
         </div>
-        {{% endif %}}
+        {% endif %}
         <div>
             <h2>Summary <small>(Length contingent on that of the full text)</small></h2>
                 <p>{{ object.summary }}</p>

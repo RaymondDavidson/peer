@@ -187,6 +187,8 @@ def upload_file():
         Redirect to feedback template on successful POST.
     """
     if request.method == 'POST':
+
+
         if 'file' not in request.files:
             flash('No file part') # does not work yet
             return redirect(request.url)
@@ -200,6 +202,7 @@ def upload_file():
             global Doc
             #time.sleep(3) # no effect on intermittent instance creation
             Doc = read_document.Sample(UPLOAD_FOLDER + "/" + filename)
+            Doc.author = request.form['author']
             return redirect(url_for('feedback', timestamp=Doc.time_stamp))
     return render_template('upload.html')
 

@@ -689,7 +689,7 @@ def cliches():
     return cliche_list
 
 
-#find and count function
+#functioin to find and count cliches in above list
 def process_cliches(phrase_list, text):
     count = 0
     caught = []

@@ -2,6 +2,7 @@
 
 
 def cliches():
+#list of cliches
     cliche_list = [
         'a chip off the old block',
         'a clean slate',
@@ -688,7 +689,7 @@ def cliches():
     return cliche_list
 
 
-
+#find and count function
 def process_cliches(phrase_list, text):
     count = 0
     caught = []
